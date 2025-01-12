@@ -1,11 +1,9 @@
-import { Button, StyleSheet, Image } from "react-native";
+import { Button, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 import React, { useState } from "react";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 export default function UploadHome() {
-   console.log("Upload Tab rendered");
   const [image, setImage] = useState<string | null>(null);
   const router = useRouter();
   
@@ -17,10 +15,9 @@ export default function UploadHome() {
       quality: 1,
     });
 
-    console.log('result is ' + result);
+    console.log(result);
 
     if (!result.canceled) {
-      console.log('in here');
       setImage(result.assets[0].uri);
       router.push({
         pathname: '/upload/approveupload',
@@ -34,11 +31,11 @@ export default function UploadHome() {
       <Text style={styles.title}>Select Receipt from Photo Gallery</Text>
       <View
         style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
+        // lightColor="#eee"
+        // darkColor="rgba(255,255,255,0.1)"
       />
       <View style={styles.getStartedContainer}>
-        <Button title="Select Photo" onPress={pickImage} color="#841584" /> 
+        <Button title="Select Photo" onPress={pickImage} color="rgb(228 239 231)" /> 
       </View>
     </View>
   );
@@ -49,8 +46,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    // backgroundColor: "rgb(196 218 210)"
   },
   getStartedContainer: {
+    // borderColor: "rgb(6 68 32)",
+    // borderWidth: 1,
+    // color: "rgb(228 239 231)",
     alignItems: "center",
     marginHorizontal: 50,
   },
@@ -61,6 +62,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
+    color: 'rgb(6, 68, 32)'
   },
   separator: {
     marginVertical: 30,
