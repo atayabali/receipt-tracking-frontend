@@ -1,10 +1,10 @@
 import { Button, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Text, View } from "@/components/Themed";
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "expo-router";
+
 export default function UploadHome() {
-  const [image, setImage] = useState<string | null>(null);
   const router = useRouter();
   
   const pickImage = async () => {
@@ -15,13 +15,17 @@ export default function UploadHome() {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      if(result == null || result.assets[0].uri == null){ //TODO: Add error message to retry, figure out why it's failing the first try
+        console.log("Result was null");
+        return;
+      }
       router.push({
         pathname: '/upload/approveupload',
-        params: {receiptImg: image}
+        params: {
+          imageUri: result.assets[0].uri,
+          fileName: result.assets[0].fileName
+        }
       })
     }
   };
@@ -29,13 +33,9 @@ export default function UploadHome() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Select Receipt from Photo Gallery</Text>
-      <View
-        style={styles.separator}
-        // lightColor="#eee"
-        // darkColor="rgba(255,255,255,0.1)"
-      />
+      <View style={styles.separator}/>
       <View style={styles.getStartedContainer}>
-        <Button title="Select Photo" onPress={pickImage} color="rgb(228 239 231)" /> 
+        <Button title="Select Photo" onPress={pickImage} color="rgb(6, 68, 32)" /> 
       </View>
     </View>
   );
@@ -46,12 +46,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    // backgroundColor: "rgb(196 218 210)"
   },
   getStartedContainer: {
-    // borderColor: "rgb(6 68 32)",
-    // borderWidth: 1,
-    // color: "rgb(228 239 231)",
     alignItems: "center",
     marginHorizontal: 50,
   },
