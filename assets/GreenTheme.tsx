@@ -1,13 +1,13 @@
 import { Theme } from "@react-navigation/native";
 
 export const GreenTheme: Theme = {
-    dark: true,
+    dark: false,
     colors: {
-        primary: 'rgb(6, 68, 32)',
-        background: 'rgb(196 218 210)',
-        card: 'rgb(228 239 231)',
-        text: 'rgb(6, 68, 32)',
-        border: 'rgb(6, 68, 32)',
+        primary: 'rgb(255, 255, 255)',
+        background: 'rgb(0, 62, 41)',
+        card: 'rgb(0, 62, 41)',
+        text: 'rgb(255, 255, 255)',
+        border: 'rgb(0, 62, 41)',
         notification: 'rgb(255, 69, 58)',
     }
     ,

@@ -1,4 +1,4 @@
-import { Button, StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Text, View } from "@/components/Themed";
 import React from "react";
@@ -33,10 +33,12 @@ export default function UploadHome() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Select Receipt from Photo Gallery</Text>
-      <View style={styles.separator}/>
-      <View style={styles.getStartedContainer}>
-        <Button title="Select Photo" onPress={pickImage} color="rgb(6, 68, 32)" /> 
-      </View>
+      <View style={styles.separator}
+      lightColor='rgb(0, 62, 41)'
+      darkColor='rgb(0, 62, 41)'/>
+      <TouchableOpacity style={styles.buttonStyle} onPress={pickImage}>
+        <Text style={{ color: "rgb(0, 62, 41)"}}>Select Photo</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -46,6 +48,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "rgb(188, 189, 203)"
+  },
+  buttonStyle:{ 
+    borderColor: "rgb(0, 62, 41)", 
+    borderStyle: "solid", 
+    borderWidth: 1,
+    padding: 5,
   },
   getStartedContainer: {
     alignItems: "center",
@@ -58,9 +67,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
-    color: 'rgb(6, 68, 32)'
+    color: 'rgb(0, 62, 41)'
   },
   separator: {
+    color: 'rgb(0, 62, 41)',
+    borderColor:  'rgb(0, 62, 41)',
     marginVertical: 30,
     height: 1,
     width: "80%",
