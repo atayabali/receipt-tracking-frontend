@@ -1,35 +1,45 @@
 import { Text, View } from "@/components/Themed";
 import axios from "axios";
 import { useSearchParams } from "expo-router/build/hooks";
+import React, { useState } from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Platform } from 'react-native';
 
 export default function ApproveUpload() {
+  const [uploadStatus, onStatusUpdate] = useState('none'); //pending, complete, none
+
   const searchParams = useSearchParams();
   var imageUri = searchParams.get("imageUri");
-  var localhost = "192.168.0.86"; //"localhost" was not working;
+  var localhost = Platform.OS === 'web' ? "localhost" : '10.0.0.101'// "192.168.0.86"; 
   var urlPrefix = `http://${localhost}:5000`;
 
   const uploadImage = async () => {
+    onStatusUpdate('pending');
     axios
       .post(`${urlPrefix}/uploadImage`, {
         image: imageUri,
-        fileName: searchParams.get("fileName"),
+        platform: Platform.OS,
+        mimeType: searchParams.get("mimeType")
       })
-      .then((res) => console.log(res))
+      .then((res) => {
+        onStatusUpdate('complete')
+        console.log(res);
+      })
       .catch((error) => {
+        onStatusUpdate('failure');
         console.error("Error occurred:", error.message);
-        console.error(error);
       })
       .finally(() => console.log("finally"));
   };
 
   return (
-    //TODO: Add text box where user can choose file name - depends on how things work in S3
     <View style={styles.container}>
+      {uploadStatus == 'none' &&       <View style={styles.container}>
       <Text style={styles.title}>Confirm Receipt Upload</Text>
       <Text style={styles.subtitle}>
         Are you sure you want to process this receipt
       </Text>
+
       <View
         style={styles.separator}
         lightColor="rgb(0, 62, 41)"
@@ -41,8 +51,13 @@ export default function ApproveUpload() {
         disabled={imageUri == null}
         onPress={uploadImage}
       >
-        <Text style={{ color: "rgb(0, 62, 41)" }}>Select Photo</Text>
+        <Text style={{ color: "rgb(0, 62, 41)" }}>Upload to Cloud</Text>
       </TouchableOpacity>
+      </View>
+      }
+      {uploadStatus == 'pending' && <Text>Upload to Cloud In Progress</Text>}
+      {uploadStatus == 'complete' && <Text>Success!!!</Text>}
+      {uploadStatus == 'failure' && <Text>Upload unsuccesful!!!</Text>}
     </View>
   );
 }

@@ -16,15 +16,13 @@ export default function UploadHome() {
     });
 
     if (!result.canceled) {
-      if(result == null || result.assets[0].uri == null){ //TODO: Add error message to retry, figure out why it's failing the first try
-        console.log("Result was null");
-        return;
-      }
+      console.log(result.assets);
       router.push({
         pathname: '/upload/approveupload',
         params: {
           imageUri: result.assets[0].uri,
-          fileName: result.assets[0].fileName
+          fileName: result.assets[0].fileName,
+          mimeType: result.assets[0].mimeType
         }
       })
     }
@@ -32,7 +30,7 @@ export default function UploadHome() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Select Receipt from Photo Gallery</Text>
+      <Text style={styles.title}>Choose Receipt from Photo Gallery</Text>
       <View style={styles.separator}
       lightColor='rgb(0, 62, 41)'
       darkColor='rgb(0, 62, 41)'/>
