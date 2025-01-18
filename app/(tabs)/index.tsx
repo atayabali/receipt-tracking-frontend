@@ -1,8 +1,8 @@
-import { StyleSheet, TouchableOpacity } from "react-native";
-import * as ImagePicker from "expo-image-picker";
 import { Text, View } from "@/components/Themed";
-import React from "react";
+import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
+import React from "react";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
 export default function UploadHome() {
   const router = useRouter();
@@ -14,7 +14,7 @@ export default function UploadHome() {
       aspect: [4, 3],
       quality: 1,
     });
-
+    
     if (!result.canceled) {
       console.log(result.assets);
       router.push({

@@ -12,24 +12,48 @@ export default function ApproveUpload() {
   var imageUri = searchParams.get("imageUri");
   var localhost = Platform.OS === 'web' ? "localhost" : '10.0.0.101'// "192.168.0.86"; 
   var urlPrefix = `http://${localhost}:5000`;
+  
+const getS3SignUrl = async (filename: string, mimetype: string) => {
+    var response = await axios
+    .post(`${urlPrefix}/presignedUrl`, {
+      fileName: filename,
+      mimeType: mimetype
+    });
+    console.log(response.data.url);
+    return response.data.url;
+}
+
+// Convert imageUri to Blob 
+const convertUriToBlob = async (uri: string) => {
+  const response = await fetch(uri);
+  const blob = await response.blob();
+  return blob;
+};
+
+const uploadImageWithPresignedUrl = async (url: string, mimeType: string) => {
+  var blob = await convertUriToBlob(imageUri ?? "");
+  var response = await axios.put(url, blob, {
+    headers: {
+      // 'x-amz-acl': 'bucket-owner-full-control', //ACLs disabled in S3 bucket so causes 403
+      'Content-Type': mimeType, // Image Type must match one used in presignedUrl generation
+    },
+  }); 
+  console.log(response);
+  return response; 
+};
 
   const uploadImage = async () => {
     onStatusUpdate('pending');
-    axios
-      .post(`${urlPrefix}/uploadImage`, {
-        image: imageUri,
-        platform: Platform.OS,
-        mimeType: searchParams.get("mimeType")
-      })
-      .then((res) => {
-        onStatusUpdate('complete')
-        console.log(res);
-      })
-      .catch((error) => {
-        onStatusUpdate('failure');
-        console.error("Error occurred:", error.message);
-      })
-      .finally(() => console.log("finally"));
+    var mimeType = searchParams.get("mimeType") ?? "";
+    try{
+      var url = await getS3SignUrl(searchParams.get("fileName") ?? "", mimeType)
+      const response = await uploadImageWithPresignedUrl(url, mimeType);
+      if(response.status == 200) onStatusUpdate('success');
+    } catch(error){
+      onStatusUpdate('failure');
+      console.error(error);
+    }
+
   };
 
   return (
@@ -39,6 +63,8 @@ export default function ApproveUpload() {
       <Text style={styles.subtitle}>
         Are you sure you want to process this receipt
       </Text>
+
+
 
       <View
         style={styles.separator}
