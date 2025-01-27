@@ -18,7 +18,7 @@ export default function UploadHome() {
     if (!result.canceled) {
       console.log(result.assets);
       router.push({
-        pathname: '/upload/approveupload',
+        pathname: '/upload/approveImage',
         params: {
           imageUri: result.assets[0].uri,
           fileName: result.assets[0].fileName,

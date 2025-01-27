@@ -1,6 +1,7 @@
 interface Expense {
     id: number;
-    location: string;
+    merchant: string;
     totalCost: string; //number
-    date: Date;
+    date: string; //Date;
+    hasSubItems: boolean;
 }

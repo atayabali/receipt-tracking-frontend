@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Platform } from 'react-native';
 
-export default function ApproveUpload() {
+export default function ApproveImage() {
   const [uploadStatus, onStatusUpdate] = useState('none'); //pending, complete, none
 
   const searchParams = useSearchParams();
