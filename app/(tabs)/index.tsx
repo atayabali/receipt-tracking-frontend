@@ -1,8 +1,10 @@
-import { Text, View } from "@/components/Themed";
+import { styles } from "@/assets/globalStyles";
+import GreenOutlineBtn from "@/components/GreenOutlineBtn";
+import { View } from "@/components/Themed";
+import Title from "@/components/Title";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
 
 export default function UploadHome() {
   const router = useRouter();
@@ -30,48 +32,8 @@ export default function UploadHome() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Choose Receipt from Photo Gallery</Text>
-      <View style={styles.separator}
-      lightColor='rgb(0, 62, 41)'
-      darkColor='rgb(0, 62, 41)'/>
-      <TouchableOpacity style={styles.buttonStyle} onPress={pickImage}>
-        <Text style={{ color: "rgb(0, 62, 41)"}}>Select Photo</Text>
-      </TouchableOpacity>
+      <Title title="Choose Receipt from Photo Gallery"></Title>
+      <GreenOutlineBtn handleClick={pickImage} buttonText="Select Photo" />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgb(188, 189, 203)"
-  },
-  buttonStyle:{ 
-    borderColor: "rgb(0, 62, 41)", 
-    borderStyle: "solid", 
-    borderWidth: 1,
-    padding: 5,
-  },
-  getStartedContainer: {
-    alignItems: "center",
-    marginHorizontal: 50,
-  },
-  image: {
-    width: 200,
-    height: 200,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: 'rgb(0, 62, 41)'
-  },
-  separator: {
-    color: 'rgb(0, 62, 41)',
-    borderColor:  'rgb(0, 62, 41)',
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});

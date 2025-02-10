@@ -1,12 +1,12 @@
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-import { useColorScheme } from '@/components/useColorScheme';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { useClientOnlyValue } from "@/components/useClientOnlyValue";
+import { useColorScheme } from "@/components/useColorScheme";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Tabs } from "expo-router";
+import React from "react";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
+  name: React.ComponentProps<typeof FontAwesome>["name"];
   color: string;
 }) {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
@@ -18,17 +18,20 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: 'rgb(255, 255, 255)',
-        tabBarInactiveTintColor: 'rgb(188, 189, 203)',
+        tabBarActiveTintColor: "rgb(255, 255, 255)",
+        tabBarInactiveTintColor: "rgb(188, 189, 203)",
         headerShown: useClientOnlyValue(false, true),
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Upload',
-          headerTitleStyle: {display: "none"},
-          tabBarIcon: () => <TabBarIcon name="upload" color={'rgb(255, 255, 255)'} />,
-          //TODO: May permanently remove this header Right later, or change 
+          title: "Upload Receipts",
+          headerTitleStyle: { display: "none" },
+          tabBarIcon: () => (
+            <TabBarIcon name="upload" color={"rgb(255, 255, 255)"} />
+          ),
+          //TODO: May permanently remove this header Right later, or change
           // headerRight: () => (
           //   <Link href="/modal" asChild>
           //     <Pressable>
@@ -48,9 +51,21 @@ export default function TabLayout() {
       <Tabs.Screen
         name="history"
         options={{
-          title: 'History',
-          headerTitleStyle: {display: "none"},
-          tabBarIcon: () => <TabBarIcon name="history" color={'rgb(255, 255, 255)'} />,
+          title: "History",
+          headerTitleStyle: { display: "none" },
+          tabBarIcon: () => (
+            <TabBarIcon name="history" color={"rgb(255, 255, 255)"} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="addEntry"
+        options={{
+          title: "Manual Entry",
+          headerTitleStyle: { display: "none" },
+          tabBarIcon: () => (
+            <TabBarIcon name="plus" color={"rgb(255, 255, 255)"} />
+          ),
         }}
       />
     </Tabs>

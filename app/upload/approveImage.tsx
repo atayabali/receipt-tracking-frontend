@@ -1,9 +1,11 @@
+import { styles } from "@/assets/globalStyles";
+import GreenOutlineBtn from "@/components/GreenOutlineBtn";
 import { Text, View } from "@/components/Themed";
+import Title from "@/components/Title";
 import axios from "axios";
 import { useSearchParams } from "expo-router/build/hooks";
 import React, { useState } from "react";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
-import { Platform } from 'react-native';
+import { Image, Platform } from "react-native";
 
 export default function ApproveImage() {
   const [uploadStatus, onStatusUpdate] = useState('none'); //pending, complete, none
@@ -38,7 +40,6 @@ const uploadImageWithPresignedUrl = async (url: string, mimeType: string) => {
       'Content-Type': mimeType, // Image Type must match one used in presignedUrl generation
     },
   }); 
-  console.log(response);
   return response; 
 };
 
@@ -53,32 +54,17 @@ const uploadImageWithPresignedUrl = async (url: string, mimeType: string) => {
       onStatusUpdate('failure');
       console.error(error);
     }
-
   };
 
   return (
     <View style={styles.container}>
-      {uploadStatus == 'none' &&       <View style={styles.container}>
-      <Text style={styles.title}>Confirm Receipt Upload</Text>
-      <Text style={styles.subtitle}>
-        Are you sure you want to process this receipt
-      </Text>
-
-
-
-      <View
-        style={styles.separator}
-        lightColor="rgb(0, 62, 41)"
-        darkColor="rgb(0, 62, 41)"
-      />
+      {uploadStatus == 'none' && <View style={styles.container}>
+      <Title title="Confirm Receipt Upload"></Title>
       {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
-      <TouchableOpacity
-        style={styles.buttonStyle}
-        disabled={imageUri == null}
-        onPress={uploadImage}
-      >
-        <Text style={{ color: "rgb(0, 62, 41)" }}>Upload to Cloud</Text>
-      </TouchableOpacity>
+      <Text style={styles.subtitle}>
+        Are you sure you want to process this receipt?
+      </Text>
+      <GreenOutlineBtn handleClick={uploadImage} buttonText="Confirm Upload"/>
       </View>
       }
       {uploadStatus == 'pending' && <Text>Upload to Cloud In Progress</Text>}
@@ -87,40 +73,3 @@ const uploadImageWithPresignedUrl = async (url: string, mimeType: string) => {
     </View>
   );
 }
-
-//TODO: Create a global styles page
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgb(188, 189, 203)",
-  },
-  buttonStyle: {
-    borderColor: "rgb(0, 62, 41)",
-    borderStyle: "solid",
-    borderWidth: 1,
-    padding: 5,
-  },
-  image: {
-    width: 300,
-    height: 300,
-    marginBottom: 30,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "rgb(6, 68, 32)",
-  },
-  subtitle: {
-    fontSize: 14,
-    fontWeight: "bold",
-    marginTop: 10,
-    color: "rgb(6, 68, 32)",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
