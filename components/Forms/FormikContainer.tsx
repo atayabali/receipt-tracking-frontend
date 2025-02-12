@@ -1,13 +1,11 @@
-import React from "react";
-import { Field, FieldArray, Form, Formik, ErrorMessage} from "formik";
-import * as Yup from "yup";
-import FormikControl from "./FormikControl";
-import { Button } from "react-native";
-import GreenOutlineBtn from "../GreenOutlineBtn";
-import TextError from './TextError';
-import { View, Text } from "@/components/Themed";
-import { TextInput } from 'react-native';
 import { styles } from "@/assets/globalStyles";
+import { View } from "@/components/Themed";
+import { Formik } from "formik";
+import React from "react";
+import * as Yup from "yup";
+import GreenOutlineBtn from "../GreenOutlineBtn";
+import FormikControl from "./FormikControl";
+
 export interface SubExpense {
   name: string;
   cost: number;
@@ -28,7 +26,7 @@ export default function FormikContainer(props: any) {
     totalCost: 0.0,
     expenseDate: new Date(),
     costBreakdown: false,
-    subExpenses: [{name: '', cost: 0, quantity: 1}],
+    subExpenses: [{ name: "", cost: 0, quantity: 1 }],
   };
   const ExpenseValidationSchema = Yup.object().shape({
     expenseName: Yup.string().required("Required"),
@@ -39,46 +37,64 @@ export default function FormikContainer(props: any) {
   const onSubmit = (values: any) => console.log(values);
 
   return (
-    <View style={styles.formControl}>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={ExpenseValidationSchema}
-        onSubmit={onSubmit}
-      >
-        {({values, errors, touched, handleChange, handleSubmit, dirty, isValid}) => (
-          <View style={styles.formControl}>
-            <FormikControl
-              onChange={handleChange('expenseName')}
-              control="input"
-              label="Expense Location: "
-              name={values.expenseName}
-              errors={errors}
-              touched={touched}
-            />
-            <FormikControl
-              onChange={handleChange('expenseName')}
-              control="input"
-              label="Total Cost: "
-              name={values.totalCost}
-              errors={errors}
-              touched={touched}
-            />
+    <Formik
+      initialValues={initialValues}
+      validationSchema={ExpenseValidationSchema}
+      onSubmit={onSubmit}
+    >
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        setFieldValue,
+        handleSubmit,
+        handleBlur,
+        dirty,
+        isValid,
+      }) => (
+        <View style={styles.formControl}>
+          <FormikControl
+            onChange={(name: string) => setFieldValue("expenseName", name)}
+            onBlur={handleBlur("expenseName")}
+            control="input"
+            label="Expense Location: "
+            value={values.expenseName}
+            name="expenseName"
+            errors={errors}
+            touched={touched}
+          />
 
-            {/* 
+          <FormikControl
+            onChange={(cost: number) => setFieldValue("totalCost", cost)}
+            onBlur={handleBlur("totalCost")}
+            control="input"
+            label="Total Cost: "
+            value={values.totalCost}
+            name="totalCost"
+            errors={errors}
+            touched={touched}
+          />
 
-            <FormikControl
-              control="date"
-              label="Expense Date: "
-              name="expenseDate"
-            />
+          <FormikControl
+            onChange={(date: Date) => setFieldValue("expenseDate", date)}
+            value={values.expenseDate}
+            name="expenseDate"
+            errors={errors}
+            touched={touched}
+            control="date"
+            label="Expense Date: "
+          />
 
-            <FormikControl
-              control="checkbox"
-              label="Include Cost Breakdown? "
-              name="costBreakdown"
-              type="checkbox"
-            />
-            {formik.values.costBreakdown && (
+          <FormikControl 
+            onClick={() => setFieldValue("costBreakdown", !values.costBreakdown)}
+            label="Include Cost Breakdown"
+            value={values.costBreakdown}
+            control="checkbox"
+          />
+
+          
+            {/* {values.costBreakdown && (
               <View>
                 <FormikControl 
                 control="array"
@@ -87,12 +103,14 @@ export default function FormikContainer(props: any) {
                 />
               </View>
             )} */}
-            {/* <Button title='Restart Form' /> */}
 
-            <GreenOutlineBtn disabled={!(dirty && isValid)} onPress={handleSubmit} buttonText="Submit Expense" />
-          </View>
-        )}
-      </Formik>
-    </View>
+          <GreenOutlineBtn
+            disabled={!(dirty && isValid)}
+            onPress={handleSubmit}
+            buttonText="Submit Expense"
+          />
+        </View>
+      )}
+    </Formik>
   );
 }

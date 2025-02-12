@@ -52,6 +52,7 @@ export const styles = StyleSheet.create({
     borderColor: "rgb(0, 62, 41)",
     borderStyle: "solid",
     borderWidth: 1,
+    // textAlign: 'center',
     padding: 5,
   },
   image: {
@@ -71,9 +72,10 @@ export const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
+    width: 200,
     borderColor: '#ddd',
-    padding: 10,
-    fontSize: 18,
+    padding: 5,
+    fontSize: 12,
     borderRadius: 6
   },
   error: {

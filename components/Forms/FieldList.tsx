@@ -23,9 +23,9 @@
 //                     <Text>Item Name: </Text>
 //                     <Text>Item Cost: </Text>
 //                     <Text>Item Quantity: </Text>
-//                   {/* <Field name={`subExpenses[${index}].name`} />
+//                   <Field name={`subExpenses[${index}].name`} />
 // =                  <Field name={`subExpenses[${index}].cost`} />
-//                   <Field name={`subExpenses[${index}].quantity`} /> */}
+//                   <Field name={`subExpenses[${index}].quantity`} />
 
 //                   {index > 0 && (
 //                     <Button title="Remove" onPress={() => remove(index)}/>
