@@ -52,8 +52,6 @@ export const styles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 1,
     padding: 5,
-    // width: 50,
-    // alignItems:'center'
   },
   image: {
     width: 300,
@@ -64,7 +62,12 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     margin: 10,
-    // marginBo
     color: "rgb(6, 68, 32)",
   },
+  formControl: {
+    marginBottom: 20
+  },
+  error: {
+    color: 'red'
+  }
 });
