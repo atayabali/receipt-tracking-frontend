@@ -1,8 +1,13 @@
 import React from "react";
-import { Field, FieldArray, Form, Formik } from "formik";
+import { Field, FieldArray, Form, Formik, ErrorMessage} from "formik";
 import * as Yup from "yup";
 import FormikControl from "./FormikControl";
-
+import { Button } from "react-native";
+import GreenOutlineBtn from "../GreenOutlineBtn";
+import TextError from './TextError';
+import { View, Text } from "@/components/Themed";
+import { TextInput } from 'react-native';
+import { styles } from "@/assets/globalStyles";
 export interface SubExpense {
   name: string;
   cost: number;
@@ -34,27 +39,32 @@ export default function FormikContainer(props: any) {
   const onSubmit = (values: any) => console.log(values);
 
   return (
-    <div>
+    <View style={styles.formControl}>
       <Formik
         initialValues={initialValues}
         validationSchema={ExpenseValidationSchema}
         onSubmit={onSubmit}
       >
-        {(formik) => (
-          <Form>
+        {({values, errors, touched, handleChange, handleSubmit, dirty, isValid}) => (
+          <View style={styles.formControl}>
             <FormikControl
+              onChange={handleChange('expenseName')}
               control="input"
-              type="text"
               label="Expense Location: "
-              name="expenseName"
+              name={values.expenseName}
+              errors={errors}
+              touched={touched}
+            />
+            <FormikControl
+              onChange={handleChange('expenseName')}
+              control="input"
+              label="Total Cost: "
+              name={values.totalCost}
+              errors={errors}
+              touched={touched}
             />
 
-            <FormikControl
-              control="input"
-              type="text"
-              label="Total Cost: "
-              name="totalCost"
-            />
+            {/* 
 
             <FormikControl
               control="date"
@@ -69,21 +79,20 @@ export default function FormikContainer(props: any) {
               type="checkbox"
             />
             {formik.values.costBreakdown && (
-              <div>
+              <View>
                 <FormikControl 
                 control="array"
                 label='List of Sub Expenses: '
                 name="subExpenses"
                 />
-              </div>
-            )}
-            <button type="reset">Restart Form</button>
-            <button type="submit" disabled={!(formik.dirty && formik.isValid)}>
-              Submit
-            </button>
-          </Form>
+              </View>
+            )} */}
+            {/* <Button title='Restart Form' /> */}
+
+            <GreenOutlineBtn disabled={!(dirty && isValid)} onPress={handleSubmit} buttonText="Submit Expense" />
+          </View>
         )}
       </Formik>
-    </div>
+    </View>
   );
 }

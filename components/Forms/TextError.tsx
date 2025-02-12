@@ -1,10 +1,11 @@
 import { styles } from '@/assets/globalStyles'
 import React from 'react'
+import { View, Text } from "@/components/Themed";
 
 export default function TextError(props: any) {
   return (
-    <div className='error' style={styles.error}>
+    <Text className='error' style={styles.error}>
         {props.children}
-    </div>
+    </Text>
   )
 }

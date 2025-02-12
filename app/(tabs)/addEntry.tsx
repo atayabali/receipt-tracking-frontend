@@ -1,5 +1,5 @@
 import { styles } from "@/assets/globalStyles";
-import { View } from "@/components/Themed";
+import { View, Text } from "@/components/Themed";
 import Title from "@/components/Title";
 import React, { useEffect } from "react";
 import { Platform } from "react-native";
