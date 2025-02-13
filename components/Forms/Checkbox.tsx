@@ -1,9 +1,7 @@
 import { styles } from "@/assets/globalStyles";
-import { ErrorMessage, Field } from "formik";
-import React from "react";
-import TextError from "./TextError";
-import { View, Text } from "@/components/Themed";
+import { View } from "@/components/Themed";
 import { CheckBox } from "@rneui/themed";
+import React from "react";
 
 function Checkbox(props: any) {
   const { label, value, onClick } = props;
@@ -12,7 +10,7 @@ function Checkbox(props: any) {
       <CheckBox
         title={label}
         checked={value}
-        style={styles.input}
+        wrapperStyle={styles.checkbox}
         onPress={onClick}
       />
     </View>

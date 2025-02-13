@@ -3,8 +3,8 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
     backgroundColor: "rgb(188, 189, 203)",
   },
   tableContainer: {
@@ -68,17 +68,47 @@ export const styles = StyleSheet.create({
   },
   formControl: {
     backgroundColor: "rgb(188, 189, 203)",
-    marginBottom: 20
+    marginHorizontal: 10,
   },
   input: {
     borderWidth: 1,
-    width: 200,
+    // width: 200,
     borderColor: '#ddd',
     padding: 5,
     fontSize: 12,
     borderRadius: 6
   },
+  checkbox: {
+    backgroundColor: "rgb(188, 189, 203)",
+    // borderWidth: 1,
+    // width: 200,
+    // borderColor: "rgb(188, 189, 203)",
+    // padding: 5,
+    fontSize: 12,
+    // borderRadius: 6
+  },
   error: {
     color: 'red'
+  },
+  inputCell: {
+    borderWidth: 1,
+    // width: 200,
+    borderColor: '#ddd',
+    padding: 5,
+    margin: 10,
+    fontSize: 12,
+    borderRadius: 6,
+    flex: 1,
+    textAlign: "left",
+
+    // backgroundColor: "rgb(188, 189, 203)",
+    // flexDirection: "row",
+    // justifyContent: "space-between",
+    // padding: 10,
+    // marginVertical: 8,
+    // marginHorizontal: 2,
+    // elevation: 1,
+    // borderRadius: 5,
+    // borderColor: "#fff",
   }
 });
