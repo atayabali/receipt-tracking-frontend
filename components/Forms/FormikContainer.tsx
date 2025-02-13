@@ -5,6 +5,7 @@ import React from "react";
 import * as Yup from "yup";
 import GreenOutlineBtn from "../GreenOutlineBtn";
 import FormikControl from "./FormikControl";
+import { ScrollView } from "react-native";
 
 export interface SubExpense {
   name: string;
@@ -39,6 +40,7 @@ export default function FormikContainer(props: any) {
   const onSubmit = (values: any) => console.log(values);
 
   return (
+    <ScrollView>
     <Formik
       initialValues={initialValues}
       validationSchema={ExpenseValidationSchema}
@@ -50,7 +52,6 @@ export default function FormikContainer(props: any) {
         touched,
         setFieldValue,
         handleSubmit,
-        handleBlur,
         dirty,
         isValid,
       }) => {
@@ -58,7 +59,6 @@ export default function FormikContainer(props: any) {
           <View style={styles.formControl}>
             <FormikControl
               onChange={(name: string) => setFieldValue("expenseName", name)}
-              onBlur={handleBlur("expenseName")}
               control="input"
               label="Expense Location: "
               value={values.expenseName}
@@ -69,7 +69,6 @@ export default function FormikContainer(props: any) {
 
             <FormikControl
               onChange={(cost: number) => setFieldValue("totalCost", cost)}
-              onBlur={handleBlur("totalCost")}
               control="input"
               label="Total Cost: "
               value={values.totalCost}
@@ -119,5 +118,6 @@ export default function FormikContainer(props: any) {
         );
       }}
     </Formik>
+    </ScrollView>
   );
 }

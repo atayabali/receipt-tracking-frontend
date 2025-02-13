@@ -4,7 +4,7 @@ import React from "react";
 import { TextInput } from "react-native";
 
 export default function Input(props: any) {
-  const { label, name, value, onChange, onBlur, errors, touched } = props;
+  const { label, name, value, onChange, errors, touched } = props;
 
   return (
     <>
@@ -12,7 +12,6 @@ export default function Input(props: any) {
       <TextInput
         value={value}
         onChangeText={(val) => onChange(val)}
-        onBlur={onBlur}
         style={styles.input}
       />
       {touched[name] && errors[name] && (

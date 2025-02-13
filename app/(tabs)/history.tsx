@@ -3,23 +3,12 @@ import ExpenseHeaders from "@/components/ExpenseHeaders";
 import ExpenseTable from "@/components/ExpenseTable";
 import { View } from "@/components/Themed";
 import Title from "@/components/Title";
-import axios from "axios";
+import { fetchExpenses } from "@/services/expenseService";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Platform } from "react-native";
-var localhost = Platform.OS === "web" ? "localhost" : "10.0.0.101"; // "192.168.0.86";
-var urlPrefix = `http://${localhost}:5000`;
-
-const fetchExpenses = async (): Promise<Expense[]> => {
-  const response = await axios.get<Expense[]>(
-    `${urlPrefix}/api/v1/expenses/all`
-  );
-  return response.data;
-};
 
 export default function History() {
   const router = useRouter();
-  //api request works but don't want to call server every time right now so hardcoded
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [sortBy, setSortBy] = useState("desc");
 
@@ -55,9 +44,8 @@ export default function History() {
   return (
     <View style={styles.tableContainer}>
       <Title title="Expense History"></Title>
-      <ExpenseHeaders sortOrder={sortBy} handleClick={reverseSortExpenses}/>
-      <ExpenseTable expenses={expenses} handleClick={viewOverview}/>
+      <ExpenseHeaders sortOrder={sortBy} handleClick={reverseSortExpenses} />
+      <ExpenseTable expenses={expenses} handleClick={viewOverview} />
     </View>
   );
 }
-

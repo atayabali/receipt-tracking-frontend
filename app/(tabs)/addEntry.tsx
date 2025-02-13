@@ -8,7 +8,7 @@ var localhost = Platform.OS === "web" ? "localhost" : "10.0.0.101"; // "192.168.
 var urlPrefix = `http://${localhost}:5000`;
 
 // const fetchExpenses = async (): Promise<Expense[]> => {
-//   const response = await axios.get<Expense[]>(
+//   const response = await F.get<Expense[]>(
 //     `${urlPrefix}/api/v1/expenses/all`
 //   );
 //   console.log(response);
