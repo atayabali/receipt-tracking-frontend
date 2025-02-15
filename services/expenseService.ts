@@ -1,3 +1,4 @@
+import { MyFormValues, SubExpense } from "@/components/Forms/FormikContainer";
 import axios from "axios";
 import { Platform } from "react-native";
 
@@ -18,3 +19,26 @@ export const fetchSubItems = async (expenseId: string): Promise<SubItem[]> => {
   );
   return response.data;
 };
+
+export const postExpense = async (expenseInfo: MyFormValues): Promise<Expense[]> => {
+  var body: ExpenseRequestBody = {
+    merchant: expenseInfo.expenseName, 
+    totalCost: expenseInfo.totalCost,
+    expenseDate: expenseInfo.expenseDate.toISOString().split('T')[0],
+    includeBreakdown: expenseInfo.costBreakdown,
+    subItems: expenseInfo.costBreakdown ? expenseInfo.subExpenses : []
+  }
+  const response = await axios.post(
+    `${urlPrefix}/api/v1/expenses`, body
+  );
+  return response.data;
+};
+
+
+interface ExpenseRequestBody {
+  merchant: string;
+  totalCost: number;
+  expenseDate: string;
+  includeBreakdown: boolean;
+  subItems: Array<SubExpense>;
+}

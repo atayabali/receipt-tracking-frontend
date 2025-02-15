@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import GreenOutlineBtn from "../GreenOutlineBtn";
 import FormikControl from "./FormikControl";
 import { ScrollView } from "react-native";
+import { postExpense } from "@/services/expenseService";
 
 export interface SubExpense {
   name: string;
@@ -13,7 +14,7 @@ export interface SubExpense {
   quantity: number;
 }
 
-interface MyFormValues {
+export interface MyFormValues {
   expenseName: string;
   totalCost: number;
   expenseDate: Date;
@@ -37,7 +38,12 @@ export default function FormikContainer(props: any) {
     costBreakdown: Yup.boolean(),
   });
 
-  const onSubmit = (values: any) => console.log(values);
+  const onSubmit = async (values: MyFormValues) => {
+    console.log(values);
+    await postExpense(values); 
+    //Reset form
+    //Maybe for now just do alert saying expense has been created
+  }
 
   return (
     <ScrollView>
