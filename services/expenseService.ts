@@ -4,7 +4,9 @@ import { Platform } from "react-native";
 var checkAWS = true;
 var localhost = Platform.OS === "web" ? "localhost" : "10.0.0.101"; // "192.168.0.86";
 localhost = checkAWS ? "54.89.224.122" : localhost;
-var urlPrefix = `http://${localhost}:5000`; //I really need to set this globally
+var port = checkAWS ? "80" : "5000"
+var urlPrefix = `http://${localhost}:${port}`; //I really need to set this globally
+console.log(urlPrefix);
 // http://:5000/api/v1/expenses/all
 export const fetchExpenses = async (): Promise<Expense[]> => {
   const response = await axios.get<Expense[]>(
