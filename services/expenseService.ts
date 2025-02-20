@@ -11,6 +11,7 @@ export const fetchExpenses = async (): Promise<Expense[]> => {
   const response = await axios.get<Expense[]>(
     `${urlPrefix}/api/v1/expenses/all`
   );
+  console.log(response);
   return response.data;
 };
 
@@ -18,6 +19,7 @@ export const fetchSubItems = async (expenseId: string): Promise<SubItem[]> => {
   const response = await axios.get<SubItem[]>(
     `${urlPrefix}/api/v1/subexpenses/${expenseId}`
   );
+  console.log(response);
   return response.data;
 };
 
@@ -32,6 +34,7 @@ export const postExpense = async (expenseInfo: MyFormValues): Promise<Expense[]>
   const response = await axios.post(
     `${urlPrefix}/api/v1/expenses`, body
   );
+  console.log(response);
   return response.data;
 };
 
