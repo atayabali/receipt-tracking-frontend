@@ -3,6 +3,7 @@ import Input from "./Input";
 import DatePicker from "./DatePickerInput";
 import Checkbox from "./Checkbox";
 import FieldList from "./FieldList";
+import FieldListV2 from "./FieldListV2";
 
 export default function FormikControl(props: any) {
     const {control, ...rest } = props;
@@ -11,6 +12,7 @@ export default function FormikControl(props: any) {
         case 'checkbox': return <Checkbox {...rest} />
         case 'date': return <DatePicker {...rest} />
         case 'array': return <FieldList {...rest} />
+        case 'array2': return <FieldListV2 {...rest} />
         default: return null;
     }
 }

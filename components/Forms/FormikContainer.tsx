@@ -40,90 +40,89 @@ export default function FormikContainer(props: any) {
 
   const onSubmit = async (values: MyFormValues) => {
     console.log(values);
-    await postExpense(values); 
+    await postExpense(values);
     //Reset form
     //Maybe for now just do alert saying expense has been created
-  }
+  };
 
   return (
     <ScrollView>
-    <Formik
-      initialValues={initialValues}
-      validationSchema={ExpenseValidationSchema}
-      onSubmit={onSubmit}
-    >
-      {({
-        values,
-        errors,
-        touched,
-        setFieldValue,
-        handleSubmit,
-        dirty,
-        isValid,
-      }) => {
-        return (
-          <View style={styles.formControl}>
-            <FormikControl
-              onChange={(name: string) => setFieldValue("expenseName", name)}
-              control="input"
-              label="Expense Location: "
-              value={values.expenseName}
-              name="expenseName"
-              errors={errors}
-              touched={touched}
-            />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={ExpenseValidationSchema}
+        onSubmit={onSubmit}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          setFieldValue,
+          handleSubmit,
+          dirty,
+          isValid,
+        }) => {
+          return (
+            <View style={styles.formControl}>
+              <FormikControl
+                onChange={(name: string) => setFieldValue("expenseName", name)}
+                control="input"
+                label="Expense Location: "
+                value={values.expenseName}
+                name="expenseName"
+                errors={errors}
+                touched={touched}
+              />
 
-            <FormikControl
-              onChange={(cost: number) => setFieldValue("totalCost", cost)}
-              control="input"
-              label="Total Cost: "
-              value={values.totalCost}
-              name="totalCost"
-              errors={errors}
-              touched={touched}
-            />
+              <FormikControl
+                onChange={(cost: number) => setFieldValue("totalCost", cost)}
+                control="input"
+                label="Total Cost: "
+                value={values.totalCost}
+                name="totalCost"
+                errors={errors}
+                touched={touched}
+              />
 
-            <FormikControl
-              onChange={(date: Date) => setFieldValue("expenseDate", date)}
-              value={values.expenseDate}
-              name="expenseDate"
-              errors={errors}
-              touched={touched}
-              control="date"
-              label="Expense Date: "
-            />
+              <FormikControl
+                onChange={(date: Date) => setFieldValue("expenseDate", date)}
+                value={values.expenseDate}
+                name="expenseDate"
+                errors={errors}
+                touched={touched}
+                control="date"
+                label="Expense Date: "
+              />
 
-            <FormikControl
-              onClick={() =>
-                setFieldValue("costBreakdown", !values.costBreakdown)
-              }
-              label="Include Cost Breakdown"
-              value={values.costBreakdown}
-              control="checkbox"
-            />
+              <FormikControl
+                onClick={() =>
+                  setFieldValue("costBreakdown", !values.costBreakdown)
+                }
+                label="Include Cost Breakdown"
+                value={values.costBreakdown}
+                control="checkbox"
+              />
 
-            {values.costBreakdown && (
-              <View>
-                <FormikControl
-                  onChange={(name: string, val: any) =>
-                    setFieldValue(name, val)
-                  }
-                  control="array"
-                  label="List of Sub Expenses: "
-                  name="subExpenses"
-                />
-              </View>
-            )}
-
-            <GreenOutlineBtn
-              disabled={!(dirty && isValid)}
-              handleClick={handleSubmit}
-              buttonText="Submit Expense"
-            />
-          </View>
-        );
-      }}
-    </Formik>
+              {values.costBreakdown && (
+                <View>
+                  <FormikControl
+                    onChange={(name: string, val: any) =>
+                      setFieldValue(name, val)
+                    }
+                    control="array2"
+                    label="List of Sub Expenses: "
+                    name="subExpenses"
+                  />
+                </View>
+              )}
+              <GreenOutlineBtn
+                disabled={!(dirty && isValid)}
+                handleClick={handleSubmit}
+                buttonText="Submit Expense"
+              />
+            </View>
+          );
+        }}
+      </Formik>
     </ScrollView>
   );
 }

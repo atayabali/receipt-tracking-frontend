@@ -7,6 +7,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import ExpenseTableV2 from "@/components/ExpenseTableV2";
 import { Expense } from "@/models/Expense";
+import { ScrollView } from "react-native";
 
 export default function History() {
   const router = useRouter();
@@ -66,6 +67,7 @@ export default function History() {
     <View style={styles.tableContainer}>
       <Title title="Expense History"></Title>
       {!refresh && (
+        <ScrollView>
         <ExpenseTableV2
           expenses={expenses}
           viewBreakdown={viewBreakdown}
@@ -73,6 +75,7 @@ export default function History() {
           order={dateOrder}
           onDelete={() => setRefresh(true)}
         />
+        </ScrollView>
       )}
     </View>
   );
