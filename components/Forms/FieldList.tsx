@@ -4,6 +4,7 @@ import { FieldArray } from "formik";
 import React from "react";
 import { Button, TextInput } from "react-native";
 import { SubExpense } from "./FormikContainer";
+import GreenOutlineBtn from "../GreenOutlineBtn";
 
 function FieldList(props: any) {
   const { label, name, onChange } = props;
@@ -55,14 +56,12 @@ function FieldList(props: any) {
                     />
                   )}
                   {index > 0 && (
+                    // <GreenOutlineBtn handleClick={() => remove(index)} buttonText="Remove" />
                     <Button title="Remove" onPress={() => remove(index)} />
                   )}
                 </View>
               ))}
-              <Button
-                title="Add Sub Expense"
-                onPress={() => push({ name: "", cost: 0, quantity: 1 })}
-              />
+              <GreenOutlineBtn handleClick={() => push({ name: "", cost: 0, quantity: 1 })} buttonText="Add Sub Expense" />
             </>
           );
         }}

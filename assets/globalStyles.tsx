@@ -3,8 +3,6 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
     backgroundColor: "rgb(188, 189, 203)",
   },
   tableContainer: {
@@ -52,7 +50,20 @@ export const styles = StyleSheet.create({
     borderColor: "rgb(0, 62, 41)",
     borderStyle: "solid",
     borderWidth: 1,
-    // textAlign: 'center',
+
+
+
+
+
+  //   width: 100,
+  //   display: 'flex',
+  //   margin: 'auto',
+  //   // margin: ,
+  //   // minWidth: '100px', // only for IE8
+  //   maxWidth: '100%',
+  // // //   top: '50%', /* Moves button to the middle vertically */
+  // //  left: '50%', /* Moves button to the middle horizontally */
+  //  textAlign: 'center',
     padding: 5,
   },
   image: {
@@ -68,11 +79,17 @@ export const styles = StyleSheet.create({
   },
   formControl: {
     backgroundColor: "rgb(188, 189, 203)",
-    marginHorizontal: 10,
+    // '& div': {
+    //   margin: 15
+    // }
+    // display: "flex",
+
+    // margin: 10,
   },
   input: {
     borderWidth: 1,
-    // width: 200,
+    width: 300,
+    maxWidth: '100%',
     borderColor: '#ddd',
     padding: 5,
     fontSize: 12,

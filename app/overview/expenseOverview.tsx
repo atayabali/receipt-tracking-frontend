@@ -1,8 +1,8 @@
 import { styles } from "@/assets/globalStyles";
-import SubItemHeaders from "@/components/SubItemHeaders";
-import SubItemTable from "@/components/SubItemTable";
+import SubItemTableV2 from "@/components/SubItemTableV2";
 import Title from "@/components/Title";
-import { fetchSubItems } from "@/services/expenseService";
+import { SubItem } from "@/models/SubItem";
+import { fetchSubItemsByExpenseId } from "@/services/subexpenseService";
 import { useSearchParams } from "expo-router/build/hooks";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
@@ -14,19 +14,19 @@ export default function ExpenseOverview() {
   useEffect(() => {
     var expenseId = searchParams.get("expenseId");
     if (expenseId != null) {
-      fetchSubItems(expenseId).then(setSubItems).catch(console.error);
+      fetchSubItemsByExpenseId(expenseId).then(setSubItems).catch(console.error);
     }
   }, []);
+
   const merchant = searchParams.get("merchant");
   const expenseDate = searchParams.get("expenseDate");
   const totalCost = searchParams.get("totalCost");
-  var expenseSummary = `Summary: $${totalCost} at ${merchant} on ${expenseDate}`;
+  var expenseSummary = `$${totalCost} at ${merchant} on ${expenseDate}`;
 
   return (
     <View style={styles.tableContainer}>
       <Title title={expenseSummary} />
-      <SubItemHeaders />
-      <SubItemTable subItems={subItems} />
+      <SubItemTableV2 subItems={subItems}/>
     </View>
   );
 }

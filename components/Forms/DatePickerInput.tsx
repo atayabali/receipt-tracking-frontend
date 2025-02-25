@@ -17,7 +17,7 @@ export default function DatePickerInput(props: any) {
   };
 
   return (
-    <View style={styles.formControl}>
+    <View style={{display: "flex", alignItems: "center", backgroundColor: 'rgb(188, 189, 203)' }}>
       <Text>
         {label} {value.toDateString()}
       </Text>

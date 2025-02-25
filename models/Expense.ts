@@ -1,4 +1,4 @@
-interface Expense {
+export interface Expense {
     id: number;
     merchant: string;
     totalCost: string; //number

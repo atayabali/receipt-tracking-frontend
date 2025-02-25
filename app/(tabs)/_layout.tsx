@@ -17,15 +17,23 @@ export default function TabLayout() {
 
   return (
     <Tabs
+      // detachInactiveScreens={true}
       screenOptions={{
+        // Documentation: https://reactnavigation.org/docs/bottom-tab-navigator/#options
+        // freezeOnBlur: true,
+        
         tabBarActiveTintColor: "rgb(255, 255, 255)",
         tabBarInactiveTintColor: "rgb(188, 189, 203)",
-        headerShown: useClientOnlyValue(false, true),
+        // headerShown: false,
+        
       }}
+      
     >
       <Tabs.Screen
         name="index"
+        
         options={{
+          
           title: "Upload Receipts",
           headerTitleStyle: { display: "none" },
           tabBarIcon: () => (

@@ -73,3 +73,7 @@ const uploadImageWithPresignedUrl = async (url: string, mimeType: string) => {
     </View>
   );
 }
+
+export const screenOptions = {
+  headerShown: false, // Ensure this is set if needed
+};
