@@ -43,6 +43,7 @@
     "react-native-screens": "~4.4.0",
     "react-native-table-component": "https://github.com/slice312/react-native-table-component.git",
     "react-native-web": "~0.19.13",
+    "typescript-guid": "^1.0.3",
     "yup": "^1.6.1"
   },
   "devDependencies": {

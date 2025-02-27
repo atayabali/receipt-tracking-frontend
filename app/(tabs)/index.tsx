@@ -18,12 +18,11 @@ export default function UploadHome() {
     });
     
     if (!result.canceled) {
-      console.log(result.assets);
+      // console.log(result.assets);
       router.push({
         pathname: '/upload/approveImage',
         params: {
           imageUri: result.assets[0].uri,
-          fileName: result.assets[0].fileName,
           mimeType: result.assets[0].mimeType
         }
       })

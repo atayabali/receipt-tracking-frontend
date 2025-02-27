@@ -105,6 +105,7 @@ export const styles = StyleSheet.create({
     // borderRadius: 6
   },
   error: {
+    padding: 10,
     color: 'red'
   },
   inputCell: {
