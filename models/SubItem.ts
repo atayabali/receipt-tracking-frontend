@@ -4,3 +4,9 @@ export interface SubItem {
     cost: string; 
     quantity: string;
 }
+
+export interface SubExpense {
+    name: string;
+    cost: number;
+    quantity: number;
+  }

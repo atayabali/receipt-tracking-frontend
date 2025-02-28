@@ -9,12 +9,9 @@ import { ScrollView } from "react-native";
 import { postExpense } from "@/services/expenseService";
 import TextError from "./TextError";
 import DismissableAlert from "../Alerts/DismissableAlert";
+import { SubExpense } from "@/models/SubItem";
 
-export interface SubExpense {
-  name: string;
-  cost: number;
-  quantity: number;
-}
+
 
 export interface MyFormValues {
   expenseName: string;

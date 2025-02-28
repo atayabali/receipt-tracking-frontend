@@ -10,13 +10,17 @@ import { View } from "react-native";
 export default function ExpenseOverview() {
   const [subItems, setSubItems] = useState<SubItem[]>([]);
   const searchParams = useSearchParams();
-
+const [refresh, setRefresh] = useState(true);
   useEffect(() => {
-    var expenseId = searchParams.get("expenseId");
-    if (expenseId != null) {
+    const getSubExpenses = async (expenseId: string) => {
       fetchSubItemsByExpenseId(expenseId).then(setSubItems).catch(console.error);
+      setRefresh(false);
     }
-  }, []);
+    var expenseId = searchParams.get("expenseId");
+    if (expenseId != null && refresh) {
+      getSubExpenses(expenseId);
+    }
+  }, [refresh]);
 
   const merchant = searchParams.get("merchant");
   const expenseDate = searchParams.get("expenseDate");
@@ -26,7 +30,7 @@ export default function ExpenseOverview() {
   return (
     <View style={styles.tableContainer}>
       <Title title={expenseSummary} />
-      <SubItemTableV2 subItems={subItems}/>
+      <SubItemTableV2 subItems={subItems} onDelete={() => setRefresh(true)}/>
     </View>
   );
 }

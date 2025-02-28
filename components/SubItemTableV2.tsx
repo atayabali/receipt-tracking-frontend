@@ -33,6 +33,7 @@ export default function SubItemTableV2(props: any) {
         {ActionBtn("Delete", () => deleteSubItemById(rowData[3]).then((res) => {
           if(res === 200){
             console.log("Succesful Delete")
+            props.onDelete();
           } else if(res === 404){
             console.log("Sub Item was not found or already deleted")
           } else {

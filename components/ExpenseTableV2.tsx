@@ -2,7 +2,7 @@ import { Text, View } from "@/components/Themed";
 import { Expense } from "@/models/Expense";
 import { deleteExpense } from "@/services/expenseService";
 import React, { useState } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { Cell, Row, Table, TableWrapper } from "react-native-table-component";
 // https://www.npmjs.com/package/react-native-table-component
@@ -61,27 +61,31 @@ export default function ExpenseTableV2(props: any) {
 
   return (
     <View style={styles.container}>
-      <Table borderStyle={{ borderWidth: 4, borderColor: "rgb(6, 68, 32)" }}>
-        <Row
-          data={data.tableHead.map((header, index) =>
-            index === 2 ? DateCell(index) : header
-          )}
-          style={styles.head}
-          textStyle={styles.headText}
-        />
+      <ScrollView>
+        <Table borderStyle={{ borderWidth: 4, borderColor: "rgb(6, 68, 32)" }}>
+          <Row
+            data={data.tableHead.map((header, index) =>
+              index === 2 ? DateCell(index) : header
+            )}
+            style={styles.head}
+            textStyle={styles.headText}
+          />
 
-        {data.tableData.map((rowData: any, index: number) => (
-          <TableWrapper key={index} style={styles.row}>
-            {rowData.map((cellData: any, cellIndex: number) => (
-              <Cell
-                key={cellIndex}
-                data={cellIndex === 3 ? actionsCell(rowData, index) : cellData}
-                textStyle={styles.text}
-              />
-            ))}
-          </TableWrapper>
-        ))}
-      </Table>
+          {data.tableData.map((rowData: any, index: number) => (
+            <TableWrapper key={index} style={styles.row}>
+              {rowData.map((cellData: any, cellIndex: number) => (
+                <Cell
+                  key={cellIndex}
+                  data={
+                    cellIndex === 3 ? actionsCell(rowData, index) : cellData
+                  }
+                  textStyle={styles.text}
+                />
+              ))}
+            </TableWrapper>
+          ))}
+        </Table>
+      </ScrollView>
       {/* https://www.npmjs.com/package/react-native-awesome-alerts */}
       <AwesomeAlert
         show={expenseToDelete !== null}

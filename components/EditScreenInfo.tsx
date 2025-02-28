@@ -14,8 +14,6 @@ export default function EditScreenInfo({ path }: { path: string }) {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
@@ -26,7 +24,6 @@ export default function EditScreenInfo({ path }: { path: string }) {
       <View style={styles.getStartedContainer}>
       <Button title="Select Photo" onPress={pickImage} color="#841584" />
       {image && <Image source={{ uri: image }} style={styles.image} />}
-
       </View>
     </View>
   );

@@ -4,25 +4,27 @@ import { Text, View } from "@/components/Themed";
 import Title from "@/components/Title";
 import { analyzeExpense, getS3SignUrl, uploadImageWithPresignedUrl } from "@/services/imageService";
 import axios from "axios";
-import { useSearchParams } from "expo-router/build/hooks";
+import { useRouter, useSearchParams } from "expo-router/build/hooks";
 import React, { useState } from "react";
 import { Image } from "react-native";
 import { Guid } from "typescript-guid";
-
+import { ScrollView } from "react-native";
 export default function ApproveImage() {
   const [uploadStatus, onStatusUpdate] = useState("none"); //pending, complete, none
-
+  const router = useRouter();
   const searchParams = useSearchParams();
   var imageUri = searchParams.get("imageUri") ?? "";
   var mimeType = searchParams.get("mimeType") ?? "";
 
-  const uploadImage = async (randomlyGeneratedFileName) => {
+  const uploadImage = async (randomlyGeneratedFileName: string) => {
     onStatusUpdate("pending");
     
     try {
       var url = await getS3SignUrl(randomlyGeneratedFileName, mimeType);
       const response = await uploadImageWithPresignedUrl(url, mimeType, imageUri);
-      if (response.status == 200) onStatusUpdate("success");
+      if (response.status == 200){
+        onStatusUpdate("success");
+      }
     } catch (error) {
       onStatusUpdate("failure");
       console.error(error);
@@ -34,13 +36,19 @@ export default function ApproveImage() {
     console.log("before image upload");
     await uploadImage(randomlyGeneratedFileName);
     console.log("after image upload/before analyze")
-    await analyzeExpense(randomlyGeneratedFileName);
+    var imageData = await analyzeExpense(randomlyGeneratedFileName);
+    router.push({
+      pathname: "/upload/saveData",
+      params: {
+        expenseData: JSON.stringify(imageData),
+      },
+    });
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {uploadStatus == "none" && (
-        <View style={styles.container}>
+        <View style={styles.imgContainer}>
           <Title title="Confirm Receipt Upload"></Title>
           {imageUri && (
             <Image source={{ uri: imageUri }} style={styles.image} />
@@ -55,8 +63,8 @@ export default function ApproveImage() {
         </View>
       )}
       {uploadStatus == "pending" && <Text>Upload to Cloud In Progress</Text>}
-      {uploadStatus == "complete" && <Text>Success!!!</Text>}
+      {uploadStatus == "success" && <Text>Upload succeeded. Extracting text from image</Text>}
       {uploadStatus == "failure" && <Text>Upload unsuccesful!!!</Text>}
-    </View>
+    </ScrollView>
   );
 }

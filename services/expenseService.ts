@@ -1,7 +1,8 @@
-import { MyFormValues, SubExpense } from "@/components/Forms/FormikContainer";
+import { MyFormValues } from "@/components/Forms/FormikContainer";
 import { Expense } from "@/models/Expense";
 import axios from "axios";
 import { urlPrefix } from "./configureUrl";
+import { SubExpense } from "@/models/SubItem";
 
 // http://:5000/api/v1/expenses/all
 export const fetchExpenses = async (): Promise<Expense[]> => {
@@ -22,6 +23,7 @@ export const postExpense = async (
     includeBreakdown: expenseInfo.costBreakdown,
     subExpenses: expenseInfo.costBreakdown ? expenseInfo.subExpenses : [],
   };
+  console.log(body);
   const response = await axios.post(`${urlPrefix}/api/v1/expenses`, body);
   console.log(response);
   return response.data;

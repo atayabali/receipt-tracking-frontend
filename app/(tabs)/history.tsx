@@ -30,8 +30,6 @@ export default function History() {
   //useFocusEffect - to run side-effects when a screen is focused. A side effect may involve things like adding an event listener, fetching data,
   useFocusEffect(
     useCallback(() => {
-      //need to research what callback does again
-      console.log("entering history page");
       fetchExpenses().then(setExpenses).catch(console.error);
     }, [])
   );
@@ -49,7 +47,7 @@ export default function History() {
   };
 
   const viewBreakdown = (item: Expense) => {
-    console.log(item);
+    // console.log(item);
     if (item.hasSubItems) {
       router.push({
         pathname: "/overview/expenseOverview",
@@ -67,7 +65,6 @@ export default function History() {
     <View style={styles.tableContainer}>
       <Title title="Expense History"></Title>
       {!refresh && (
-        <ScrollView>
         <ExpenseTableV2
           expenses={expenses}
           viewBreakdown={viewBreakdown}
@@ -75,7 +72,6 @@ export default function History() {
           order={dateOrder}
           onDelete={() => setRefresh(true)}
         />
-        </ScrollView>
       )}
     </View>
   );

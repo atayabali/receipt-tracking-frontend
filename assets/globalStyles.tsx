@@ -5,6 +5,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgb(188, 189, 203)",
   },
+  imgContainer: {
+    flex: 1,
+    backgroundColor: "rgb(188, 189, 203)",
+    alignItems: 'center'
+  },
   tableContainer: {
     flex: 1,
     paddingHorizontal: 40,
@@ -50,25 +55,11 @@ export const styles = StyleSheet.create({
     borderColor: "rgb(0, 62, 41)",
     borderStyle: "solid",
     borderWidth: 1,
-
-
-
-
-
-  //   width: 100,
-  //   display: 'flex',
-  //   margin: 'auto',
-  //   // margin: ,
-  //   // minWidth: '100px', // only for IE8
-  //   maxWidth: '100%',
-  // // //   top: '50%', /* Moves button to the middle vertically */
-  // //  left: '50%', /* Moves button to the middle horizontally */
-  //  textAlign: 'center',
     padding: 5,
   },
   image: {
-    width: 300,
-    height: 300,
+    width: 350,
+    height: 550,
     marginBottom: 20,
   },
   subtitle: {

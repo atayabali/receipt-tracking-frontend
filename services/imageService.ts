@@ -33,4 +33,6 @@ export const uploadImageWithPresignedUrl = async (
 
 export const analyzeExpense = async (objectName: string) => {
     var response = await axios.get(`${urlPrefix}/images/analyzeExpense/${objectName}`);
+    console.log(response.data);
+    return response.data
 }
