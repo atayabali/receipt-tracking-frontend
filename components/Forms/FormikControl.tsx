@@ -10,7 +10,7 @@ export default function FormikControl(props: any) {
         case 'input': return <Input {...rest}/>
         case 'checkbox': return <Checkbox {...rest} />
         case 'date': return <DatePicker {...rest} />
-        case 'array2': return <FieldListV2 {...rest} />
+        case 'array': return <FieldListV2 {...rest} />
         default: return null;
     }
 }

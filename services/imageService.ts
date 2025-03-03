@@ -3,21 +3,6 @@ import { urlPrefix } from "./configureUrl";
 import * as FileSystem from "expo-file-system";
 import { Platform } from "react-native";
 
-// Helper function to convert Base64 to Blob
-function base64ToBlob(base64: string, contentType: string): Blob {
-  const byteCharacters = atob(base64);
-  const byteArrays = [];
-  for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-    const slice = byteCharacters.slice(offset, offset + 512);
-    const byteNumbers = new Array(slice.length);
-    for (let i = 0; i < slice.length; i++) {
-      byteNumbers[i] = slice.charCodeAt(i);
-    }
-    byteArrays.push(new Uint8Array(byteNumbers));
-  }
-  return new Blob(byteArrays, { type: contentType });
-}
-
 // Convert imageUri to Blob
 const convertUriToBlob = async (uri: string, mimeType: string) => {
   const response = await fetch(uri);

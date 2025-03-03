@@ -3,7 +3,6 @@ import GreenOutlineBtn from "@/components/GreenOutlineBtn";
 import { Text, View } from "@/components/Themed";
 import Title from "@/components/Title";
 import { analyzeExpense, getS3Url, uploadImageWithPresignedUrl } from "@/services/imageService";
-import axios from "axios";
 import { useRouter, useSearchParams } from "expo-router/build/hooks";
 import React, { useState } from "react";
 import { Image } from "react-native";

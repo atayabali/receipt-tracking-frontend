@@ -48,7 +48,7 @@ function FieldListV2(props: any) {
 
   return (
     <View style={{ backgroundColor: "rgb(188, 189, 203)" }}>
-      <Text style={{padding: 10,}}>{label}</Text>
+      <Text style={{paddingLeft: 10}}>{label}</Text>
       <FieldArray name={name}>
         {(fieldArrayProps) => {
           const { push, remove, form } = fieldArrayProps;

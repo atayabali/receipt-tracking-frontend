@@ -1,5 +1,5 @@
 import { styles } from "@/assets/globalStyles";
-import { View } from "@/components/Themed";
+import { Text, View } from "@/components/Themed";
 import { Formik } from "formik";
 import React, { useState } from "react";
 import * as Yup from "yup";
@@ -10,8 +10,7 @@ import { postExpense } from "@/services/expenseService";
 import TextError from "./TextError";
 import DismissableAlert from "../Alerts/DismissableAlert";
 import { SubExpense } from "@/models/SubItem";
-
-
+import { calculateSubTotal, checkSubItems } from "@/services/subItemValidator";
 
 export interface MyFormValues {
   expenseName: string;
@@ -24,8 +23,9 @@ export interface MyFormValues {
 export default function FormikContainer(props: any) {
   const [isCreated, setIsCreated] = useState(false);
   const [isFailure, setIsFailure] = useState(false);
-  const [subExpenseErrors, setSubExpenseErrors ] = useState(false);
-  
+  //"incomplete", "unequal", or "complete"
+  const [subItemsTotal, setSubTotal] = useState(0);
+  const [breakdownStatus, setBreakdownStatus] = useState("complete");
   const initialValues: MyFormValues = {
     expenseName: "",
     totalCost: 0.0,
@@ -42,9 +42,12 @@ export default function FormikContainer(props: any) {
   });
 
   const onSubmit = async (values: MyFormValues, { resetForm }: any) => {
-    var invalidSubItemsExist = values.subExpenses.some(sub => sub.name.length === 0 || sub.cost <= 0);
-    setSubExpenseErrors(invalidSubItemsExist);
-    if(invalidSubItemsExist) return;
+    var status = checkSubItems(values.subExpenses, values.totalCost);
+    setBreakdownStatus(status);
+    if (values.costBreakdown && status !== "complete") {
+      setSubTotal(calculateSubTotal(values.subExpenses));
+      return;
+    }
 
     await postExpense(values)
       .then((res) => {
@@ -116,16 +119,26 @@ export default function FormikContainer(props: any) {
                   control="checkbox"
                 />
 
-                {values.costBreakdown && subExpenseErrors &&
-                <TextError children="Sub Items table is incomplete. Please fill out before re-submitting." />
-                }
+                {values.costBreakdown && breakdownStatus === "unequal" && (
+                  <TextError children="The Total Expense Price and Sum of Sub Items is not equal. Adjust costs, quantities or add sub expenses to fix this discrepency." />
+                )}
+
+                {values.costBreakdown && breakdownStatus === "incomplete" && (
+                  <TextError children="Sub Items table is incomplete. Please fill out before saving." />
+                )}
+                {breakdownStatus !== "complete" && (
+                  <Text style={{ paddingLeft: 10 }}>
+                    Sub Items Total: {subItemsTotal}{" "}
+                  </Text>
+                )}
+
                 {values.costBreakdown && (
                   <View>
                     <FormikControl
                       onChange={(name: string, val: any) =>
                         setFieldValue(name, val)
                       }
-                      control="array2"
+                      control="array"
                       label="List of Sub Expenses: "
                       name="subExpenses"
                     />
@@ -141,9 +154,16 @@ export default function FormikContainer(props: any) {
           }}
         </Formik>
       </ScrollView>
-      <DismissableAlert showAlert={isCreated} title="Expense was created" onDismiss={() => setIsCreated(false)} />
-      <DismissableAlert showAlert={isFailure} title="Expense not created" onDismiss={() => setIsFailure(false)} />
-
+      <DismissableAlert
+        showAlert={isCreated}
+        title="Expense was created"
+        onDismiss={() => setIsCreated(false)}
+      />
+      <DismissableAlert
+        showAlert={isFailure}
+        title="Expense not created"
+        onDismiss={() => setIsFailure(false)}
+      />
     </>
   );
 }
