@@ -30,7 +30,7 @@ export default function History() {
   //useFocusEffect - to run side-effects when a screen is focused. A side effect may involve things like adding an event listener, fetching data,
   useFocusEffect(
     useCallback(() => {
-      fetchExpenses().then(setExpenses).catch(console.error);
+      fetchExpenses().then(setExpenses).catch(e => console.log(e));
     }, [])
   );
 
@@ -47,7 +47,6 @@ export default function History() {
   };
 
   const viewBreakdown = (item: Expense) => {
-    // console.log(item);
     if (item.hasSubItems) {
       router.push({
         pathname: "/overview/expenseOverview",

@@ -8,7 +8,6 @@ export const fetchSubItemsByExpenseId = async (
   const response = await axios.get<SubItem[]>(
     `${urlPrefix}/api/v1/subexpenses/${expenseId}`
   );
-  // console.log(response);
   return response.data;
 };
 

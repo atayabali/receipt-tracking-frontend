@@ -14,11 +14,9 @@ export default function SaveExpenseData() {
   const router = useRouter();
   const expenseData = JSON.parse(params.get("expenseData") ?? "{}");
   // var expenseDate: Date = expenseData.expenseDate;
-  // console.log(typeof(expenseDate));
   const [subItems, setSubItems] = useState(expenseData.subItems);
 
   const saveExpenseData = async () => {
-        console.log("save data");
         const expenseBody: MyFormValues = {
           expenseName: expenseData.merchant,
           totalCost: expenseData.totalCost,
@@ -32,7 +30,6 @@ export default function SaveExpenseData() {
     
         await postExpense(expenseBody)
           .then((res) => {
-            console.log(res);
             router.back();
             router.back();
           })
@@ -44,7 +41,7 @@ export default function SaveExpenseData() {
   const textCell = (itemIndex: number, property: string, value: any) => {
     return (
       <TextInput
-        value={value}
+        value={value.toString()}
         onChangeText={(val: any) => {
           setSubItems((prevItems: SubExpense[]) => {
             return prevItems.map((item, i) => i === itemIndex ? {...item, [property]: val} : item)
@@ -69,13 +66,15 @@ export default function SaveExpenseData() {
 
         {subItems?.map((subItem: any, index: number) => (
           <TableWrapper key={index} style={styles.row}>
-            {Object.entries(subItem).map(([key, value]) => (
-              <Cell
+            {Object.entries(subItem).map(([key, value]) => {
+              return <Cell
                 key={`${index}.${key}`}
                 data={textCell(index, key, value)}
                 textStyle={styles.text}
               />
-            ))}
+
+            })
+            }
           </TableWrapper>
         ))}
       </Table>

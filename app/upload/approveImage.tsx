@@ -2,7 +2,7 @@ import { styles } from "@/assets/globalStyles";
 import GreenOutlineBtn from "@/components/GreenOutlineBtn";
 import { Text, View } from "@/components/Themed";
 import Title from "@/components/Title";
-import { analyzeExpense, getS3SignUrl, uploadImageWithPresignedUrl } from "@/services/imageService";
+import { analyzeExpense, getS3Url, uploadImageWithPresignedUrl } from "@/services/imageService";
 import axios from "axios";
 import { useRouter, useSearchParams } from "expo-router/build/hooks";
 import React, { useState } from "react";
@@ -20,7 +20,7 @@ export default function ApproveImage() {
     onStatusUpdate("pending");
     
     try {
-      var url = await getS3SignUrl(randomlyGeneratedFileName, mimeType);
+      var url = await getS3Url(randomlyGeneratedFileName, mimeType);
       const response = await uploadImageWithPresignedUrl(url, mimeType, imageUri);
       if (response.status == 200){
         onStatusUpdate("success");
@@ -33,9 +33,7 @@ export default function ApproveImage() {
 
   const uploadImageAndAnalyse = async () => {
     var randomlyGeneratedFileName = Guid.create().toString();
-    console.log("before image upload");
     await uploadImage(randomlyGeneratedFileName);
-    console.log("after image upload/before analyze")
     var imageData = await analyzeExpense(randomlyGeneratedFileName);
     router.push({
       pathname: "/upload/saveData",

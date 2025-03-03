@@ -32,8 +32,9 @@ export default function UploadHome() {
   const tempAnalyze = async () => {
     var traderJoeReceipt = "77d95aa9-d081-111f-7ca0-ec40d4bf1812"
     var aldiReceipt = '546efef8-469b-c471-ae09-66e9965b32ff';
+    var walmartReceipt = 'f074548a-b332-53a5-24af-09d6e1a3efd3';
     var expenseData = await analyzeExpense(
-      aldiReceipt
+      walmartReceipt
     );
     router.push({
       pathname: "/upload/saveData",

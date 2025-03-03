@@ -9,7 +9,6 @@ export const fetchExpenses = async (): Promise<Expense[]> => {
   const response = await axios.get<Expense[]>(
     `${urlPrefix}/api/v1/expenses/all`
   );
-  // console.log(response);
   return response.data;
 };
 
@@ -23,9 +22,7 @@ export const postExpense = async (
     includeBreakdown: expenseInfo.costBreakdown,
     subExpenses: expenseInfo.costBreakdown ? expenseInfo.subExpenses : [],
   };
-  console.log(body);
   const response = await axios.post(`${urlPrefix}/api/v1/expenses`, body);
-  console.log(response);
   return response.data;
 };
 
@@ -35,7 +32,7 @@ export const deleteExpense = async (expenseId: string) => {
       `${urlPrefix}/api/v1/expenses/${expenseId}`
     );
     return response.status;
-  } catch (e) {
+  } catch (e: any) {
     console.log(e.response);
     return e.response.status;
   }
