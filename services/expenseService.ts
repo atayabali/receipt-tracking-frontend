@@ -33,8 +33,7 @@ export const deleteExpense = async (expenseId: string) => {
     );
     return response.status;
   } catch (e: any) {
-    console.log(e.response);
-    return e.response.status;
+    return 500;
   }
 };
 

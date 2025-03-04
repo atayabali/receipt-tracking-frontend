@@ -5,9 +5,8 @@ import { fetchExpenses } from "@/services/expenseService";
 import { useRouter } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import ExpenseTableV2 from "@/components/ExpenseTableV2";
+import ExpenseTableV2 from "@/components/ExpenseTable";
 import { Expense } from "@/models/Expense";
-import { ScrollView } from "react-native";
 
 export default function History() {
   const router = useRouter();

@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
   tableContainer: {
     flex: 1,
     paddingHorizontal: 40,
-    paddingVertical: 30,
+    // paddingVertical: 30,
     backgroundColor: "rgb(188, 189, 203)",
   },
   header: {

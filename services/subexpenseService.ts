@@ -1,4 +1,4 @@
-import { SubItem } from "@/models/SubItem";
+import { SubExpense, SubItem, SubItemRequestBody } from "@/models/SubItem";
 import axios from "axios";
 import { urlPrefix } from "./configureUrl";
 
@@ -18,7 +18,18 @@ export const deleteSubItemById = async (subItemId: string) => {
     );
     return response.status;
   } catch (e) {
-    console.log(e.response);
-    return e.response.status;
+    return 500;
   }
 };
+
+export const postSubItem = async (body: SubItemRequestBody) => {
+
+  try {
+    const response = await axios.post(
+      `${urlPrefix}/api/v1/subexpenses/`, body
+    );
+    return response.status;
+  } catch (e) {
+    return 500;
+  }
+}

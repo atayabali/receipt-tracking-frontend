@@ -5,7 +5,7 @@ import { TouchableOpacity, View } from "react-native";
 
 export default function GreenOutlineBtn(props: any) {
   return (
-    <View style={{ display: "flex", alignItems: "center", margin: 5}}>
+    <View style={{ display: "flex", alignItems: "center", margin: 5, zIndex: -1}}>
       <TouchableOpacity
         disabled={props.disabled ?? false}
         style={styles.buttonStyle}

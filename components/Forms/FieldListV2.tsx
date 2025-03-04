@@ -5,6 +5,9 @@ import { Cell, Row, Table, TableWrapper } from "react-native-table-component";
 import { SubItem } from "@/models/SubItem";
 import { FieldArray } from "formik";
 import GreenOutlineBtn from "../GreenOutlineBtn";
+import SubItemTableV2 from "../SubItemTableV2";
+import { TableHeader } from "../Cells/TableHeader";
+import { ActionButton } from "../Cells/ActionButton";
 
 function FieldListV2(props: any) {
   const { label, name, onChange } = props;
@@ -34,16 +37,8 @@ function FieldListV2(props: any) {
     );
   };
 
-  const removeBtn = (removeRow: any) => {
-    return (
-      <View style={styles.actions}>
-        <TouchableOpacity onPress={removeRow}>
-          <View style={styles.btn}>
-            <Text style={styles.btnText}>Remove</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
+  const RemoveButton = (removeRow: any) => {
+    return <ActionButton text="Remove" handleClick={removeRow} />;
   };
 
   return (
@@ -65,11 +60,7 @@ function FieldListV2(props: any) {
               <Table
                 borderStyle={{ borderWidth: 4, borderColor: "rgb(6, 68, 32)" }}
               >
-                <Row
-                  data={["Item Name", "Price", "Quantity", "Actions"]}
-                  style={styles.head}
-                  textStyle={styles.headText}
-                />
+                <TableHeader columnNames={["Item Name", "Price", "Quantity", "Actions"]}/>
 
                 {tableData.map((rowData: any, index: number) => (
                   <TableWrapper key={index} style={styles.row}>
@@ -78,7 +69,7 @@ function FieldListV2(props: any) {
                         key={cellIndex}
                         data={
                           index > 0 && cellIndex === 3
-                            ? removeBtn(() => remove(index))
+                            ? RemoveButton(() => remove(index))
                             : textCell(index, cellIndex, cellData)
                         }
                         textStyle={styles.text}
@@ -91,6 +82,17 @@ function FieldListV2(props: any) {
                 handleClick={() => push({ name: "", cost: 0, quantity: 1 })}
                 buttonText="Add Sub Expense"
               />
+              {/* <SubItemTableV2
+                    subItems={subExpenses} 
+                    // updateItem={updateItem}
+                    // onDelete={() => setRefresh(true)} 
+                    // onAdd={() => {
+                    //   setRefresh(true);
+                    //   setCreateProcess(false);
+                    // }}
+                    // expenseId={searchParams.get("expenseId")}
+              
+              /> */}
             </View>
           );
         }}
@@ -103,13 +105,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: "rgb(188, 189, 203)",
-  },
-  head: { height: 50, backgroundColor: "rgb(188, 189, 203)" },
-  headText: {
-    fontSize: 15,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "rgb(6, 68, 32)",
   },
   text: { margin: 2, fontSize: 14, textAlign: "center", height: 40 },
   row: { flexDirection: "row", backgroundColor: "rgb(188, 189, 203)" },

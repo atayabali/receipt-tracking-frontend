@@ -1,3 +1,4 @@
+import { TableHeader } from "@/components/Cells/TableHeader";
 import { MyFormValues } from "@/components/Forms/FormikContainer";
 import TextError from "@/components/Forms/TextError";
 import GreenOutlineBtn from "@/components/GreenOutlineBtn";
@@ -8,7 +9,7 @@ import { calculateSubTotal, checkSubItems } from "@/services/subItemValidator";
 import { useRouter, useSearchParams } from "expo-router/build/hooks";
 import React, { useState } from "react";
 import { ScrollView, StyleSheet, TextInput } from "react-native";
-import { Cell, Row, Table, TableWrapper } from "react-native-table-component";
+import { Cell, Table, TableWrapper } from "react-native-table-component";
 
 export default function SaveExpenseData() {
   const params = useSearchParams();
@@ -76,11 +77,8 @@ export default function SaveExpenseData() {
         <Text>Sub Items Total: {subItemsTotal}</Text>
       )}
       <Table borderStyle={{ borderWidth: 4, borderColor: "rgb(6, 68, 32)" }}>
-        <Row
-          data={["Item Name", "Price", "Quantity"]}
-          style={styles.head}
-          textStyle={styles.headText}
-        />
+
+        <TableHeader columnNames={["Item Name", "Price", "Quantity"]}/>
 
         {subItems?.map((subItem: any, index: number) => (
           <TableWrapper key={index} style={styles.row}>
@@ -110,13 +108,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: "rgb(188, 189, 203)",
-  },
-  head: { height: 50, backgroundColor: "rgb(188, 189, 203)" },
-  headText: {
-    fontSize: 15,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "rgb(6, 68, 32)",
   },
   text: { margin: 2, fontSize: 14, textAlign: "center" },
   row: { flexDirection: "row", backgroundColor: "rgb(188, 189, 203)" },
