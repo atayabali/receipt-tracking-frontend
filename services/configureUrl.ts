@@ -1,9 +1,9 @@
 import { Platform } from "react-native";
 
-var checkAWS = false;
+var checkAWS = true;
 
 var localhost = Platform.OS === "web" ? "localhost" :  "192.168.0.86"//"10.0.0.101"; // "192.168.0.86";
-localhost = checkAWS ? "54.89.224.122" : localhost;
-
-export var urlPrefix = `http://${localhost}:5000`; //I really need to set this globally
+export var urlPrefix = checkAWS 
+? "http://expenseapi.us-east-1.elasticbeanstalk.com" 
+: `http://${localhost}:5000`;
 

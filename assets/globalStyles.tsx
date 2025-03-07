@@ -13,16 +13,7 @@ export const styles = StyleSheet.create({
   tableContainer: {
     flex: 1,
     paddingHorizontal: 40,
-    // paddingVertical: 30,
     backgroundColor: "rgb(188, 189, 203)",
-  },
-  header: {
-    backgroundColor: "rgb(188, 189, 203)",
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderRadius: 5,
-    flexDirection: "row",
-    marginBottom: 15,
   },
   columnName: {
     flex: 1,
@@ -70,12 +61,6 @@ export const styles = StyleSheet.create({
   },
   formControl: {
     backgroundColor: "rgb(188, 189, 203)",
-    // '& div': {
-    //   margin: 15
-    // }
-    // display: "flex",
-
-    // margin: 10,
   },
   input: {
     borderWidth: 1,
@@ -88,12 +73,7 @@ export const styles = StyleSheet.create({
   },
   checkbox: {
     backgroundColor: "rgb(188, 189, 203)",
-    // borderWidth: 1,
-    // width: 200,
-    // borderColor: "rgb(188, 189, 203)",
-    // padding: 5,
     fontSize: 12,
-    // borderRadius: 6
   },
   error: {
     padding: 10,
@@ -101,7 +81,6 @@ export const styles = StyleSheet.create({
   },
   inputCell: {
     borderWidth: 1,
-    // width: 200,
     borderColor: '#ddd',
     padding: 5,
     margin: 10,
@@ -109,15 +88,22 @@ export const styles = StyleSheet.create({
     borderRadius: 6,
     flex: 1,
     textAlign: "left",
-
-    // backgroundColor: "rgb(188, 189, 203)",
-    // flexDirection: "row",
-    // justifyContent: "space-between",
-    // padding: 10,
-    // marginVertical: 8,
-    // marginHorizontal: 2,
-    // elevation: 1,
-    // borderRadius: 5,
-    // borderColor: "#fff",
-  }
+  },
+  header: {
+    height: 50,
+    backgroundColor: "rgb(188, 189, 203)",
+  },
+  headerText: {
+    fontSize: 15,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "rgb(6, 68, 32)",
+  },
+  tableBorder: {
+    borderWidth: 3,
+    borderColor: "rgb(6, 68, 32)",
+  },
+  cellText: { margin: 2, fontSize: 14, textAlign: "center" },
+  tableRow: { flexDirection: "row", backgroundColor: "rgb(188, 189, 203)" },
+  actionsColumn: { backgroundColor: "rgb(188, 189, 203)" },
 });

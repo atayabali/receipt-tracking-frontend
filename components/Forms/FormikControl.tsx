@@ -2,7 +2,7 @@ import React from "react";
 import Input from "./Input";
 import DatePicker from "./DatePickerInput";
 import Checkbox from "./Checkbox";
-import FieldListV2 from "./FieldListV2";
+import { FieldListV2 } from "./FieldListV2";
 
 export default function FormikControl(props: any) {
     const {control, ...rest } = props;
