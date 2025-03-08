@@ -2,11 +2,12 @@ import { styles } from "@/assets/globalStyles";
 import { TableHeader } from "@/components/Cells/TableHeader";
 import { MyFormValues } from "@/components/Forms/FormikContainer";
 import TextError from "@/components/Forms/TextError";
+import TotalsDisplay from "@/components/Forms/TotalsDisplay";
 import GreenOutlineBtn from "@/components/GreenOutlineBtn";
 import { Text } from "@/components/Themed";
 import { SubExpense } from "@/models/SubItem";
 import { postExpense } from "@/services/expenseService";
-import { calculateSubTotal, checkSubItems } from "@/services/subItemValidator";
+import { checkSubItems } from "@/services/subItemValidator";
 import { useRouter, useSearchParams } from "expo-router/build/hooks";
 import React, { useState } from "react";
 import { ScrollView, TextInput } from "react-native";
@@ -18,7 +19,6 @@ export default function SaveExpenseData() {
   const expenseData = JSON.parse(params.get("expenseData") ?? "{}");
   const [subItems, setSubItems] = useState(expenseData.subItems);
   //"incomplete", "unequal", or "complete"
-  const [subItemsTotal, setSubTotal] = useState(0);
   const [breakdownStatus, setBreakdownStatus] = useState("complete");
 
   const saveExpenseData = async () => {
@@ -32,7 +32,7 @@ export default function SaveExpenseData() {
     var status = checkSubItems(subItems, expenseData.totalCost);
     setBreakdownStatus(status);
     if (expenseData.hasSubItems && status !== "complete") {
-      setSubTotal(calculateSubTotal(subItems));
+      console.log("in here");
       return;
     }
 
@@ -63,20 +63,16 @@ export default function SaveExpenseData() {
   };
 
   return (
-    <ScrollView>
+    // <View >
+    <ScrollView style={{backgroundColor: "rgb(188, 189, 203)", padding: 10}}>
       <Text>Expense/Store: {expenseData.merchant}</Text>
       <Text>Expense Date: {expenseData.expenseDate}</Text>
-      <Text>Total Price: {expenseData.totalCost}</Text>
-      {breakdownStatus === "unequal" && (
-        <TextError children="The Total Expense Price and Sum of Sub Items is not equal. Adjust costs, quantities or add sub expenses to fix this discrepency." />
-      )}
+      <TotalsDisplay totalCost={expenseData.totalCost} subItems={subItems}/> 
 
       {breakdownStatus === "incomplete" && (
         <TextError children="Sub Items table is incomplete. Please fill out before saving." />
       )}
-      {breakdownStatus !== "complete" && (
-        <Text>Sub Items Total: {subItemsTotal}</Text>
-      )}
+
       <Table borderStyle={{ borderWidth: 4, borderColor: "rgb(6, 68, 32)" }}>
         <TableHeader columnNames={["Item Name", "Price", "Quantity"]} />
 
@@ -100,21 +96,6 @@ export default function SaveExpenseData() {
         buttonText="Save Expense"
       />
     </ScrollView>
+    // </View>
   );
 }
-
-// const styles = StyleSheet.create({
-
-//   cellText: { margin: 2, fontSize: 14, textAlign: "center" },
-//   tableRow: { flexDirection: "row", backgroundColor: "rgb(188, 189, 203)" },
-//   btn: {
-//     width: 58,
-//     height: 18,
-//     backgroundColor: "rgb(6, 68, 32)",
-//     borderRadius: 2,
-//     alignSelf: "center",
-//     margin: 5,
-//   },
-//   btnText: { textAlign: "center", color: "#fff" },
-//   actions: { backgroundColor: "rgb(188, 189, 203)" },
-// });

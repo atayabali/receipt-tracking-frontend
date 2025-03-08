@@ -1,7 +1,7 @@
 import { styles } from "@/assets/globalStyles";
 import { Text, View } from "@/components/Themed";
 import { Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import GreenOutlineBtn from "../GreenOutlineBtn";
 import FormikControl from "./FormikControl";
@@ -10,7 +10,8 @@ import { postExpense } from "@/services/expenseService";
 import TextError from "./TextError";
 import DismissableAlert from "../Alerts/DismissableAlert";
 import { SubExpense } from "@/models/SubItem";
-import { calculateSubTotal, checkSubItems } from "@/services/subItemValidator";
+import { checkSubItems } from "@/services/subItemValidator";
+import TotalsDisplay from "./TotalsDisplay";
 
 export interface MyFormValues {
   expenseName: string;
@@ -24,16 +25,25 @@ export default function FormikContainer(props: any) {
   const [isCreated, setIsCreated] = useState(false);
   const [isFailure, setIsFailure] = useState(false);
   //"incomplete", "unequal", or "complete"
-  const [subItemsTotal, setSubTotal] = useState(0);
   const [breakdownStatus, setBreakdownStatus] = useState("complete");
-  const initialValues: MyFormValues = {
-    expenseName: "",
-    totalCost: 0.0,
-    expenseDate: new Date(),
-    costBreakdown: false,
-    subExpenses: [{ name: "", cost: 0, quantity: 1 }],
+  const [subItems, setSubItems] = useState<SubExpense[]>([{ name: "", cost: 0, quantity: 1 }]);
+  
+  const addSubItem = () => {
+    setSubItems([...subItems, {name: '', cost: 0, quantity: 0} ]);
   };
 
+  const updateItem = (index: number, key: string, newValue: any) => {
+    setSubItems((prevItems) =>
+      prevItems.map((item, i) =>
+        i === index ? { ...item, [key]: newValue } : item
+      )
+    );    
+  };
+
+  const removeItem = (index: number) => {
+    setSubItems((prevItems) => 
+    prevItems.splice(index, 1));
+  }
   const ExpenseValidationSchema = Yup.object().shape({
     expenseName: Yup.string().required("Required"),
     totalCost: Yup.number().required().positive(),
@@ -41,11 +51,19 @@ export default function FormikContainer(props: any) {
     costBreakdown: Yup.boolean(),
   });
 
+  var initialValues = {
+    expenseName: "",
+    totalCost: 0.0,
+    expenseDate: new Date(),
+    costBreakdown: false,
+    subExpenses: [],
+  }
+
   const onSubmit = async (values: MyFormValues, { resetForm }: any) => {
     var status = checkSubItems(values.subExpenses, values.totalCost);
     setBreakdownStatus(status);
     if (values.costBreakdown && status !== "complete") {
-      setSubTotal(calculateSubTotal(values.subExpenses));
+      console.log('in here container');
       return;
     }
 
@@ -119,30 +137,24 @@ export default function FormikContainer(props: any) {
                   control="checkbox"
                 />
 
-                {values.costBreakdown && breakdownStatus === "unequal" && (
-                  <TextError children="The Total Expense Price and Sum of Sub Items is not equal. Adjust costs, quantities or add sub expenses to fix this discrepency." />
-                )}
-
-                {values.costBreakdown && breakdownStatus === "incomplete" && (
-                  <TextError children="Sub Items table is incomplete. Please fill out before saving." />
-                )}
-                {breakdownStatus !== "complete" && (
-                  <Text style={{ paddingLeft: 10 }}>
-                    Sub Items Total: {subItemsTotal}{" "}
-                  </Text>
-                )}
-
                 {values.costBreakdown && (
-                  <View>
+                  <>
+                  <TotalsDisplay totalCost={values.totalCost} subItems={subItems} />
+                  {breakdownStatus === "incomplete" && 
+                  <TextError children="Sub Items table is incomplete. Please fill out before saving." />}
                     <FormikControl
-                      onChange={(name: string, val: any) =>
-                        setFieldValue(name, val)
+                      subItems={subItems}
+                      onChange={(index: number, property: string, val: any) => {
+                        updateItem(index, property, val);
                       }
+                      }
+                      onAdd={addSubItem}
+                      onRemove={removeItem}
                       control="array"
                       label="List of Sub Expenses: "
                       name="subExpenses"
                     />
-                  </View>
+                  </>
                 )}
                 <GreenOutlineBtn
                   disabled={!(dirty && isValid)}
@@ -167,3 +179,7 @@ export default function FormikContainer(props: any) {
     </>
   );
 }
+function useDeepCompareEffect(arg0: () => void, arg1: any[]) {
+  throw new Error("Function not implemented.");
+}
+

@@ -1,4 +1,5 @@
 import { styles } from "@/assets/globalStyles";
+import TotalsDisplay from "@/components/Forms/TotalsDisplay";
 import GreenOutlineBtn from "@/components/GreenOutlineBtn";
 import SubItemTableV2 from "@/components/SubItemTableV2";
 import Title from "@/components/Title";
@@ -27,9 +28,11 @@ export default function ExpenseOverview() {
     }
   }, [refresh]);
 
-
   const addSubItem = () => {
-    setSubItems([...subItems, {id: null, name: '', cost: '0', quantity: '0'} ]);
+    setSubItems([
+      ...subItems,
+      { id: null, name: "", cost: "0", quantity: "0" },
+    ]);
   };
 
   const updateItem = (index: number, key: string, newValue: any) => {
@@ -42,29 +45,37 @@ export default function ExpenseOverview() {
 
   const merchant = searchParams.get("merchant");
   const expenseDate = searchParams.get("expenseDate");
-  const totalCost = searchParams.get("totalCost");
+  const totalCost = searchParams.get("totalCost") ?? "0";
   var expenseSummary = `$${totalCost} at ${merchant} on ${expenseDate}`;
 
   return (
     <View style={styles.tableContainer}>
       <Title title={expenseSummary} />
-      <SubItemTableV2 
-      subItems={subItems} 
-      updateItem={updateItem}
-      onDelete={() => setRefresh(true)} 
-      onAdd={() => {
-        setRefresh(true);
-        setCreateProcess(false);
-      }}
-      expenseId={searchParams.get("expenseId")}
-       />
-      {<GreenOutlineBtn buttonText="Add Sub Item" 
-      disabled={createProcess}
-      handleClick={() => { 
-        addSubItem();
-        setCreateProcess(true);
-      }}
-      />}
+      <TotalsDisplay
+        totalCost={parseFloat(totalCost)}
+        subItems={subItems}
+      />
+      <SubItemTableV2
+        subItems={subItems}
+        updateItem={updateItem}
+        onDelete={() => setRefresh(true)}
+        onAdd={() => {
+          setRefresh(true);
+          setCreateProcess(false);
+        }}
+        expenseId={searchParams.get("expenseId")}
+      />
+
+      {
+        <GreenOutlineBtn
+          buttonText="Add Sub Item"
+          disabled={createProcess}
+          handleClick={() => {
+            addSubItem();
+            setCreateProcess(true);
+          }}
+        />
+      }
     </View>
   );
 }
