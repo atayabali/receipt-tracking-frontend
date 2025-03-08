@@ -105,38 +105,42 @@ export default function SubItemTableV2(props: any) {
 
   return (
     // <View>
-      <ScrollView>
-        <Table borderStyle={styles.tableBorder}>
-          <TableHeader columnNames={data.tableHead} />
-          {data.tableData.map((rowData: any, index: number) => (
-            <TableWrapper key={index} style={styles.tableRow}>
-              {rowData.map((cellData: any, cellIndex: number) => (
-                <Cell
-                  key={cellIndex}
-                  data={CellContent(cellData, cellIndex, rowData, index)}
-                  textStyle={styles.cellText}
-                />
-              ))}
-            </TableWrapper>
-          ))}
-        </Table>
-      
-      <DismissableAlert
+    <ScrollView>
+      <Table borderStyle={styles.tableBorder}>
+        <TableHeader columnNames={data.tableHead} />
+        {data.tableData.map((rowData: any, index: number) => (
+          <TableWrapper key={index} style={styles.tableRow}>
+            {rowData.map((cellData: any, cellIndex: number) => (
+              <Cell
+                key={cellIndex}
+                data={CellContent(cellData, cellIndex, rowData, index)}
+                textStyle={styles.cellText}
+              />
+            ))}
+          </TableWrapper>
+        ))}
+      </Table>
+      {isCreated !== null && (
+        <DismissableAlert
           showAlert={isCreated !== null}
           title={isCreated ? "SubItem was added" : "Failed to create subitem"}
           onDismiss={() => setIsCreated(null)}
         />
+      )}
+      {isDeleted !== null && (
         <DismissableAlert
           showAlert={isDeleted !== null}
           title={isDeleted ? "SubItem was deleted" : "Failed to delete subitem"}
           onDismiss={() => setIsDeleted(null)}
         />
+      )}
+      {invalidBody && (
         <DismissableAlert
           showAlert={invalidBody}
           title="SubItem is incomplete"
           onDismiss={() => setInvalidBody(false)}
         />
-        </ScrollView>
-      
+      )}
+    </ScrollView>
   );
 }

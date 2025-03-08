@@ -12,6 +12,7 @@ export default function DatePickerInput(props: any) {
 
   const handleDateChange = (event: any, selectedDate?: Date) => {
     if (selectedDate) {
+      console.log(selectedDate);
       onChange(selectedDate);
     }
   };

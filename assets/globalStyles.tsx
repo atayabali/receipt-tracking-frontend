@@ -42,8 +42,6 @@ export const styles = StyleSheet.create({
     textDecorationLine: "underline",
   },
   buttonStyle: {
-    backgroundColor: "rgb(188, 189, 203)",
-    borderColor: "rgb(0, 62, 41)",
     borderStyle: "solid",
     borderWidth: 1,
     padding: 5,

@@ -71,7 +71,10 @@ export default function History() {
   return (
     <View style={styles.tableContainer}>
       <Title title="Expense History"></Title>
-      <GreenOutlineBtn buttonText={`Sort: Date (${dateOrder})`} handleClick={sortExpenses}/>
+      <GreenOutlineBtn
+        buttonText={`Sort: Date (${dateOrder})`}
+        handleClick={sortExpenses}
+      />
       {!refresh && (
         <ExpenseTableV2
           expenses={expenses}
@@ -80,19 +83,21 @@ export default function History() {
           onDelete={() => setRefresh(true)}
         />
       )}
-      <ConfirmCancelAlert
-        show={expenseToDelete !== null}
-        title="Delete Expense"
-        message="Are you sure you want to delete this expense? Existing Sub Items will be deleted with it."
-        dismissAlert={() => updateExpenseToDelete(null)}
-        confirmPressed={() => {
-          if (expenseToDelete !== null) {
-            deleteExpense(expenseToDelete.toString()).then((res) => {
-              if (res === 200) setRefresh(true);
-            });
-          }
-        }}
-      />
+      {expenseToDelete !== null && (
+        <ConfirmCancelAlert
+          show={expenseToDelete !== null}
+          title="Delete Expense"
+          message="Are you sure you want to delete this expense? Existing Sub Items will be deleted with it."
+          dismissAlert={() => updateExpenseToDelete(null)}
+          confirmPressed={() => {
+            if (expenseToDelete !== null) {
+              deleteExpense(expenseToDelete.toString()).then((res) => {
+                if (res === 200) setRefresh(true);
+              });
+            }
+          }}
+        />
+      )}
     </View>
   );
 }

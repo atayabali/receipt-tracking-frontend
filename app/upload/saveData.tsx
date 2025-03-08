@@ -9,6 +9,7 @@ import { SubExpense } from "@/models/SubItem";
 import { postExpense } from "@/services/expenseService";
 import { checkSubItems } from "@/services/subItemValidator";
 import { useRouter, useSearchParams } from "expo-router/build/hooks";
+import moment from "moment";
 import React, { useState } from "react";
 import { ScrollView, TextInput } from "react-native";
 import { Cell, Table, TableWrapper } from "react-native-table-component";
@@ -22,19 +23,23 @@ export default function SaveExpenseData() {
   const [breakdownStatus, setBreakdownStatus] = useState("complete");
 
   const saveExpenseData = async () => {
+    console.log(expenseData);
+    const eDate = moment(expenseData.expenseDate, "MM/DD/YYYY").toDate();
+    console.log(eDate);
+    console.log(typeof(eDate));
+    
     const expenseBody: MyFormValues = {
       expenseName: expenseData.merchant,
       totalCost: expenseData.totalCost,
-      expenseDate: new Date(expenseData.expenseDate),
+      expenseDate: eDate,
       costBreakdown: expenseData.hasSubItems,
       subExpenses: subItems,
     };
+    console.log(expenseBody.expenseDate);
     var status = checkSubItems(subItems, expenseData.totalCost);
     setBreakdownStatus(status);
-    if (expenseData.hasSubItems && status !== "complete") {
-      console.log("in here");
-      return;
-    }
+    if (status !== "complete") return;
+    
 
     await postExpense(expenseBody)
       .then((res) => {

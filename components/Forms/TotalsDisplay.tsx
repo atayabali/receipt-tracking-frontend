@@ -5,14 +5,12 @@ const calculateSubTotal = (subItems: SubExpense[] | SubItem[]) => {
   let subTotal = 0;
   if (subItems?.length === 0) return subTotal;
   subItems.forEach((item) => {
-    console.log(item);
     var cost =
       typeof item.cost === "string" ? parseFloat(item.cost) : item.cost;
     var quantity =
       typeof item.quantity === "string"
         ? parseFloat(item.quantity)
         : item.quantity;
-    console.log(Number.isNaN(cost));
     if(Number.isNaN(cost) || Number.isNaN(quantity) || cost <= 0 || quantity <= 0) subTotal += 0;
     else subTotal += cost * quantity;
   });

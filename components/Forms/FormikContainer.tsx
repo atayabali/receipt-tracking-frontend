@@ -26,10 +26,12 @@ export default function FormikContainer(props: any) {
   const [isFailure, setIsFailure] = useState(false);
   //"incomplete", "unequal", or "complete"
   const [breakdownStatus, setBreakdownStatus] = useState("complete");
-  const [subItems, setSubItems] = useState<SubExpense[]>([{ name: "", cost: 0, quantity: 1 }]);
-  
+  const [subItems, setSubItems] = useState<SubExpense[]>([
+    { name: "", cost: 0, quantity: 1 },
+  ]);
+
   const addSubItem = () => {
-    setSubItems([...subItems, {name: '', cost: 0, quantity: 0} ]);
+    setSubItems([...subItems, { name: "", cost: 0, quantity: 0 }]);
   };
 
   const updateItem = (index: number, key: string, newValue: any) => {
@@ -37,13 +39,12 @@ export default function FormikContainer(props: any) {
       prevItems.map((item, i) =>
         i === index ? { ...item, [key]: newValue } : item
       )
-    );    
+    );
   };
 
   const removeItem = (index: number) => {
-    setSubItems((prevItems) => 
-    prevItems.splice(index, 1));
-  }
+    setSubItems((prevItems) => prevItems.splice(index, 1));
+  };
   const ExpenseValidationSchema = Yup.object().shape({
     expenseName: Yup.string().required("Required"),
     totalCost: Yup.number().required().positive(),
@@ -57,13 +58,14 @@ export default function FormikContainer(props: any) {
     expenseDate: new Date(),
     costBreakdown: false,
     subExpenses: [],
-  }
+  };
 
   const onSubmit = async (values: MyFormValues, { resetForm }: any) => {
+    console.log(values.expenseDate);
     var status = checkSubItems(values.subExpenses, values.totalCost);
     setBreakdownStatus(status);
     if (values.costBreakdown && status !== "complete") {
-      console.log('in here container');
+      console.log("in here container");
       return;
     }
 
@@ -139,15 +141,18 @@ export default function FormikContainer(props: any) {
 
                 {values.costBreakdown && (
                   <>
-                  <TotalsDisplay totalCost={values.totalCost} subItems={subItems} />
-                  {breakdownStatus === "incomplete" && 
-                  <TextError children="Sub Items table is incomplete. Please fill out before saving." />}
+                    <TotalsDisplay
+                      totalCost={values.totalCost}
+                      subItems={subItems}
+                    />
+                    {breakdownStatus === "incomplete" && (
+                      <TextError children="Sub Items table is incomplete. Please fill out before saving." />
+                    )}
                     <FormikControl
                       subItems={subItems}
                       onChange={(index: number, property: string, val: any) => {
                         updateItem(index, property, val);
-                      }
-                      }
+                      }}
                       onAdd={addSubItem}
                       onRemove={removeItem}
                       control="array"
@@ -166,20 +171,23 @@ export default function FormikContainer(props: any) {
           }}
         </Formik>
       </ScrollView>
-      <DismissableAlert
-        showAlert={isCreated}
-        title="Expense was created"
-        onDismiss={() => setIsCreated(false)}
-      />
-      <DismissableAlert
-        showAlert={isFailure}
-        title="Expense not created"
-        onDismiss={() => setIsFailure(false)}
-      />
+      {isCreated && (
+        <DismissableAlert
+          showAlert={isCreated}
+          title="Expense was created"
+          onDismiss={() => setIsCreated(false)}
+        />
+      )}
+      {isFailure && (
+        <DismissableAlert
+          showAlert={isFailure}
+          title="Expense not created"
+          onDismiss={() => setIsFailure(false)}
+        />
+      )}
     </>
   );
 }
 function useDeepCompareEffect(arg0: () => void, arg1: any[]) {
   throw new Error("Function not implemented.");
 }
-
