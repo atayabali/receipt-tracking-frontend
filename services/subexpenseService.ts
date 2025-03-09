@@ -1,4 +1,4 @@
-import { SubExpense, SubItem, SubItemRequestBody } from "@/models/SubItem";
+import { SubExpenseHistoryItem, SubItem, SubItemRequestBody } from "@/models/SubItem";
 import axios from "axios";
 import { urlPrefix } from "./configureUrl";
 
@@ -6,10 +6,17 @@ export const fetchSubItemsByExpenseId = async (
   expenseId: string
 ): Promise<SubItem[]> => {
   const response = await axios.get<SubItem[]>(
-    `${urlPrefix}/api/v1/subexpenses/${expenseId}`
+    `${urlPrefix}/api/v1/subexpenses/byexpense/${expenseId}`
   );
   return response.data;
 };
+
+export const fetchAllSubItemsSearchOptional = async (searchQuery: string) => {
+  const response = await axios.get<SubExpenseHistoryItem[]>(
+    `${urlPrefix}/api/v1/subexpenses/all/${searchQuery}`
+  );
+  return response.data;
+}
 
 export const deleteSubItemById = async (subItemId: string) => {
   try {

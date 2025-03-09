@@ -11,6 +11,13 @@ export interface SubExpense {
     quantity: number;
   }
 
+export interface SubExpenseHistoryItem {
+  name: string;
+  cost: number;
+  date: string;
+  
+}
+
   export interface SubItemRequestBody {
     expenseId: number;
     name: string;
