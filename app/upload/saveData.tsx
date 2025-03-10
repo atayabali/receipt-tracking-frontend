@@ -1,10 +1,10 @@
 import { styles } from "@/assets/globalStyles";
 import { TableHeader } from "@/components/Cells/TableHeader";
-import { MyFormValues } from "@/components/Forms/FormikContainer";
 import TextError from "@/components/Forms/TextError";
 import TotalsDisplay from "@/components/Forms/TotalsDisplay";
 import GreenOutlineBtn from "@/components/GreenOutlineBtn";
 import { Text } from "@/components/Themed";
+import { ExpenseFormValues } from "@/models/Expense";
 import { SubExpense } from "@/models/SubItem";
 import { postExpense } from "@/services/expenseService";
 import { checkSubItems } from "@/services/subItemValidator";
@@ -23,24 +23,18 @@ export default function SaveExpenseData() {
   const [breakdownStatus, setBreakdownStatus] = useState("complete");
 
   const saveExpenseData = async () => {
-    console.log(expenseData);
-    const eDate = moment(expenseData.expenseDate, "MM/DD/YYYY").toDate();
-    console.log(eDate);
-    console.log(typeof(eDate));
-    
-    const expenseBody: MyFormValues = {
+    const expenseBody: ExpenseFormValues = {
       expenseName: expenseData.merchant,
       totalCost: expenseData.totalCost,
-      expenseDate: eDate,
+      expenseDate: moment(expenseData.expenseDate, "MM/DD/YYYY").toDate(),
       costBreakdown: expenseData.hasSubItems,
       subExpenses: subItems,
+      imageKey: params.get("imageKey")
     };
-    console.log(expenseBody.expenseDate);
     var status = checkSubItems(subItems, expenseData.totalCost);
     setBreakdownStatus(status);
     if (status !== "complete") return;
     
-
     await postExpense(expenseBody)
       .then((res) => {
         router.back();
@@ -51,6 +45,10 @@ export default function SaveExpenseData() {
       });
   };
 
+  const addTax = (difference: number) => {
+    setSubItems([...subItems, {name: "TAX", cost: difference, quantity: 1}])
+  }
+  
   const textCell = (itemIndex: number, property: string, value: any) => {
     return (
       <TextInput
@@ -70,10 +68,10 @@ export default function SaveExpenseData() {
   return (
     // <View >
     <ScrollView style={{backgroundColor: "rgb(188, 189, 203)", padding: 10}}>
-      <Text>Expense/Store: {expenseData.merchant}</Text>
-      <Text>Expense Date: {expenseData.expenseDate}</Text>
-      <TotalsDisplay totalCost={expenseData.totalCost} subItems={subItems}/> 
-
+      <Text style={{ paddingLeft: 10}}>Expense/Store: {expenseData.merchant}</Text>
+      <Text style={{ paddingLeft: 10}}>Expense Date: {expenseData.expenseDate}</Text>
+      <TotalsDisplay totalCost={expenseData.totalCost} subItems={subItems} canAddTax={true} addTax={addTax}/> 
+      
       {breakdownStatus === "incomplete" && (
         <TextError children="Sub Items table is incomplete. Please fill out before saving." />
       )}

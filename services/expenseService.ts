@@ -1,8 +1,6 @@
-import { MyFormValues } from "@/components/Forms/FormikContainer";
-import { Expense } from "@/models/Expense";
+import { Expense, ExpenseFormValues, ExpenseRequestBody } from "@/models/Expense";
 import axios from "axios";
 import { urlPrefix } from "./configureUrl";
-import { SubExpense } from "@/models/SubItem";
 
 // http://:5000/api/v1/expenses/all
 export const fetchExpenses = async (): Promise<Expense[]> => {
@@ -13,7 +11,7 @@ export const fetchExpenses = async (): Promise<Expense[]> => {
 };
 
 export const postExpense = async (
-  expenseInfo: MyFormValues
+  expenseInfo: ExpenseFormValues
 ): Promise<Expense[]> => {
   var body: ExpenseRequestBody = {
     merchant: expenseInfo.expenseName,
@@ -21,6 +19,7 @@ export const postExpense = async (
     expenseDate: expenseInfo.expenseDate.toISOString().split("T")[0],
     includeBreakdown: expenseInfo.costBreakdown,
     subExpenses: expenseInfo.costBreakdown ? expenseInfo.subExpenses : [],
+    imageKey: expenseInfo.imageKey
   };
   const response = await axios.post(`${urlPrefix}/api/v1/expenses`, body);
   return response.data;
@@ -37,10 +36,4 @@ export const deleteExpense = async (expenseId: string) => {
   }
 };
 
-interface ExpenseRequestBody {
-  merchant: string;
-  totalCost: number;
-  expenseDate: string;
-  includeBreakdown: boolean;
-  subExpenses: Array<SubExpense>;
-}
+

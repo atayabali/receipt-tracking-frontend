@@ -8,6 +8,7 @@ import { fetchSubItemsByExpenseId } from "@/services/subexpenseService";
 import { useSearchParams } from "expo-router/build/hooks";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
+import { ExpenseImage } from "./expenseImage";
 
 export default function ExpenseOverview() {
   const [subItems, setSubItems] = useState<SubItem[]>([]);
@@ -46,11 +47,14 @@ export default function ExpenseOverview() {
   const merchant = searchParams.get("merchant");
   const expenseDate = searchParams.get("expenseDate");
   const totalCost = searchParams.get("totalCost") ?? "0";
+  const imageKey = searchParams.get("imageKey");
   var expenseSummary = `$${totalCost} at ${merchant} on ${expenseDate}`;
 
   return (
     <View style={styles.tableContainer}>
       <Title title={expenseSummary} />
+      {imageKey && <ExpenseImage imageKey={imageKey} /> }
+
       <TotalsDisplay
         totalCost={parseFloat(totalCost)}
         subItems={subItems}

@@ -5,6 +5,26 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgb(188, 189, 203)",
   },
+  searchBarContainer: {
+    marginTop: 5,
+    backgroundColor: "rgb(188, 189, 203)",
+    borderTopColor: "rgb(188, 189, 203)",
+    
+    borderBottomColor: "rgb(188, 189, 203)",
+  },
+  searchInputContainer: {
+    backgroundColor: "rgb(73, 73, 76)",
+  },
+  searchBar: {
+    height: 35, // Smaller height
+    backgroundColor: "rgb(188, 189, 203)", // Darker background
+    borderRadius: 10,
+    elevation: 2, // Shadow effect for Android
+  },
+  searchInput: {
+    fontSize: 14, // Smaller text
+    color: "rgb(6, 68, 32)" ///"#fff", // White text
+  },
   imgContainer: {
     flex: 1,
     backgroundColor: "rgb(188, 189, 203)",
@@ -12,7 +32,7 @@ export const styles = StyleSheet.create({
   },
   tableContainer: {
     flex: 1,
-    paddingHorizontal: 40,
+    paddingHorizontal: 10,
     backgroundColor: "rgb(188, 189, 203)",
   },
   columnName: {

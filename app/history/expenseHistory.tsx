@@ -62,6 +62,7 @@ export default function ExpenseHistory() {
           expenseDate: item.date,
           merchant: item.merchant,
           totalCost: item.totalCost,
+          imageKey: item.imageKey
         },
       });
     }

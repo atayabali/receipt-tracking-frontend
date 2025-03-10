@@ -62,3 +62,13 @@ export const analyzeExpense = async (objectName: string) => {
   );
   return response.data;
 };
+
+
+export const getImageByKey = async (objectName: string) => {
+  var response = await axios.get(
+    `${urlPrefix}/images/s3Object/${objectName}`
+  );
+  return response.data.imageUri;
+};
+
+

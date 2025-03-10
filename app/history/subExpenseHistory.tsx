@@ -48,10 +48,14 @@ export default function SubExpenseHistory() {
         placeholder="Search for item"
         onChangeText={onSearch}
         value={search}
+        containerStyle={styles.searchBarContainer}
+        inputContainerStyle={styles.searchInputContainer}
+        style={styles.searchBar}
+        inputStyle={styles.searchInput}
       />
       <Text>
         Retrieving{" "}
-        {search.length > 0 ? `items that contains '${search}'` : "all items"}
+        {search.length > 0 ? `items that contain '${search}'` : "all items"}
       </Text>
       <ScrollView>
         <Table borderStyle={styles.tableBorder}>

@@ -1,7 +1,7 @@
 import { styles } from "@/assets/globalStyles";
-import { Text, View } from "@/components/Themed";
+import { View } from "@/components/Themed";
 import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import GreenOutlineBtn from "../GreenOutlineBtn";
 import FormikControl from "./FormikControl";
@@ -12,14 +12,7 @@ import DismissableAlert from "../Alerts/DismissableAlert";
 import { SubExpense } from "@/models/SubItem";
 import { checkSubItems } from "@/services/subItemValidator";
 import TotalsDisplay from "./TotalsDisplay";
-
-export interface MyFormValues {
-  expenseName: string;
-  totalCost: number;
-  expenseDate: Date;
-  costBreakdown: boolean;
-  subExpenses: Array<SubExpense>;
-}
+import { ExpenseFormValues } from "@/models/Expense";
 
 export default function FormikContainer(props: any) {
   const [isCreated, setIsCreated] = useState(false);
@@ -60,12 +53,10 @@ export default function FormikContainer(props: any) {
     subExpenses: [],
   };
 
-  const onSubmit = async (values: MyFormValues, { resetForm }: any) => {
-    console.log(values.expenseDate);
+  const onSubmit = async (values: ExpenseFormValues, { resetForm }: any) => {
     var status = checkSubItems(values.subExpenses, values.totalCost);
     setBreakdownStatus(status);
     if (values.costBreakdown && status !== "complete") {
-      console.log("in here container");
       return;
     }
 
