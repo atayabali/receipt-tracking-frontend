@@ -34,7 +34,7 @@ const TotalsDisplay = (props: {
   return (
     <View style={{ paddingLeft: 10, backgroundColor: "rgb(188, 189, 203)" }}>
       <Text>Total Cost: {props.totalCost}</Text>
-      <Text>Sub Items Total: {subItemsTotal}</Text>
+      <Text>Sub Items Total: {subItemsTotal.toFixed(2)}</Text>
       <Text>Difference: { (props.totalCost - subItemsTotal).toFixed(2) }</Text>
 
       {props.totalCost > subItemsTotal && props.canAddTax 
