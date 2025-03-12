@@ -35,8 +35,6 @@ export default function ApproveImage() {
     } catch (error) {
       onStatusUpdate("failure");
       console.error(error);
-    } finally {
-      onStatusUpdate("none");
     }
   };
 
@@ -48,6 +46,8 @@ export default function ApproveImage() {
       var imageData = await analyzeExpense(randomlyGeneratedFileName);
     } catch (e) {
       onStatusUpdate("failure");
+    } finally {
+      onStatusUpdate("none");
     }
     router.push({
       pathname: "/upload/saveData",
