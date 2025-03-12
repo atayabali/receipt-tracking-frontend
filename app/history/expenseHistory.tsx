@@ -33,13 +33,13 @@ export default function ExpenseHistory() {
 
   // https://reactnavigation.org/docs/use-focus-effect/
   //useFocusEffect - to run side-effects when a screen is focused. A side effect may involve things like adding an event listener, fetching data,
-  useFocusEffect(
-    useCallback(() => {
-      fetchExpenses()
-        .then(setExpenses)
-        .catch((e) => console.log(e));
-    }, [])
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     fetchExpenses()
+  //       .then(setExpenses)
+  //       .catch((e) => console.log(e));
+  //   }, [])
+  // );
 
   const sortExpenses = () => {
     var isDesc = dateOrder === "desc";
