@@ -1,6 +1,6 @@
 import { Platform } from "react-native";
 
-var checkAWS = false;
+var checkAWS = true;
 
 var localhost = Platform.OS === "web" ? "localhost" : "10.0.0.101"; // "192.168.0.86";
 export var urlPrefix = checkAWS 
