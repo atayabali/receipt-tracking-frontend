@@ -11,9 +11,9 @@ import { useRouter, useSearchParams } from "expo-router/build/hooks";
 import React, { useState } from "react";
 import { Image } from "react-native";
 import { Guid } from "typescript-guid";
-import * as Progress from "react-native-progress";
 import { ScrollView } from "react-native";
-import { FontAwesome6 } from "@expo/vector-icons";
+import ProgressCircle from "./progressCircle";
+import UploadFailure from "./uploadFailure";
 export default function ApproveImage() {
   const [uploadStatus, onStatusUpdate] = useState("none"); //pending, complete, none
   const router = useRouter();
@@ -44,6 +44,7 @@ export default function ApproveImage() {
     try {
       await uploadImage(randomlyGeneratedFileName);
       var imageData = await analyzeExpense(randomlyGeneratedFileName);
+      console.log(imageData);
     } catch (e) {
       onStatusUpdate("failure");
     } finally {
@@ -75,28 +76,12 @@ export default function ApproveImage() {
           />
         </View>
       )}
+
       {(uploadStatus === "pending" || uploadStatus === "success")
-       &&
-          <View style={{alignItems: 'center', backgroundColor:  "rgb(188, 189, 203)"}}>
-            <Text> Processing in progress</Text>
-            <Progress.Circle size={30} indeterminate={true} />
-          </View>
+       && <ProgressCircle message="Extracting text from image"/>
       }
 
-      {
-      uploadStatus === "failure" && 
-        <View style={{alignItems: 'center', backgroundColor:  "rgb(188, 189, 203)"}}>
-          <Text>
-            Processing of image failed
-          </Text>
-          <FontAwesome6
-            name="xmark"
-            size={60}
-            color="red"
-            style={{ alignSelf: "center" }}
-          />
-        </View>
-      }
+      { uploadStatus === "failure" && <UploadFailure message="Failed to process image"/> }
     </ScrollView>
   );
 }

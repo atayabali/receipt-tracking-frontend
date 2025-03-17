@@ -19,14 +19,17 @@ export default function SaveExpenseData() {
   const router = useRouter();
   const expenseData = JSON.parse(params.get("expenseData") ?? "{}");
   const [subItems, setSubItems] = useState(expenseData.subItems);
+  const [merchant, setMerchant] = useState(expenseData.merchant);
+  const [expenseDate, setDate] = useState(expenseData.expenseDate);
+  const [totalCost, setTotal] = useState(expenseData.totalCost.toString());
   //"incomplete", "unequal", or "complete"
   const [breakdownStatus, setBreakdownStatus] = useState("complete");
 
   const saveExpenseData = async () => {
     const expenseBody: ExpenseFormValues = {
-      expenseName: expenseData.merchant,
-      totalCost: expenseData.totalCost,
-      expenseDate: moment(expenseData.expenseDate, "MM/DD/YYYY").toDate(),
+      expenseName: merchant,
+      totalCost: totalCost,
+      expenseDate: moment(expenseDate, "MM/DD/YYYY").toDate(),
       costBreakdown: expenseData.hasSubItems,
       subExpenses: subItems,
       imageKey: params.get("imageKey")
@@ -64,13 +67,29 @@ export default function SaveExpenseData() {
       />
     );
   };
-
   return (
     // <View >
     <ScrollView style={{backgroundColor: "rgb(188, 189, 203)", padding: 10}}>
-      <Text style={{ paddingLeft: 10}}>Expense/Store: {expenseData.merchant}</Text>
-      <Text style={{ paddingLeft: 10}}>Expense Date: {expenseData.expenseDate}</Text>
-      <TotalsDisplay totalCost={expenseData.totalCost} subItems={subItems} canAddTax={true} addTax={addTax}/> 
+            <Text>Expense/Store:</Text>
+            <TextInput
+              value={merchant}
+              onChangeText={(val) => setMerchant(val)}
+              style={styles.input}
+            />
+            <Text>Expense Date:</Text>
+            <TextInput
+              value={expenseDate}
+              onChangeText={(val) => setDate(val)}
+              style={styles.input}
+            />
+            <Text>Total Price:</Text>
+            <TextInput
+              value={totalCost.toString()}
+              onChangeText={(val) => setTotal(val)}
+              style={styles.input}
+            />
+
+      <TotalsDisplay totalCost={totalCost} subItems={subItems} canAddTax={true} addTax={addTax}/> 
       
       {breakdownStatus === "incomplete" && (
         <TextError children="Sub Items table is incomplete. Please fill out before saving." />
@@ -94,6 +113,11 @@ export default function SaveExpenseData() {
         ))}
       </Table>
       <Text> Edit any incorrect information and click Save when finished</Text>
+      <GreenOutlineBtn
+        handleClick={async () => setSubItems([...subItems, {name: "", cost: 0.00, quantity: 1}])      }
+        buttonText="Add SubItem"
+      />
+
       <GreenOutlineBtn
         handleClick={async () => await saveExpenseData()}
         buttonText="Save Expense"

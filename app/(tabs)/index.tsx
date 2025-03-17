@@ -13,8 +13,6 @@ export default function UploadHome() {
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ["images"],
-      // allowsEditing: true,
-      // aspect: [6, 2],
       quality: 1,
     });
 
