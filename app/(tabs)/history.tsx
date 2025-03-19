@@ -19,7 +19,7 @@ export default function History() {
           setIndex(event.nativeEvent.selectedSegmentIndex)
           console.log(event);
         }}
-        style={{marginRight: 50, marginLeft: 50, }}
+        style={{marginRight: 50, marginLeft: 50, marginBottom: 10 }}
         tintColor="rgb(6, 68, 32)"
         backgroundColor="rgb(73, 73, 76)"
       >

@@ -1,12 +1,11 @@
 import { SubItem, SubItemRequestBody } from "@/models/SubItem";
 import { deleteSubItemById, postSubItem } from "@/services/subexpenseService";
 import React, { useState } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Cell, Table, TableWrapper } from "react-native-table-component";
 import DismissableAlert from "../Alerts/DismissableAlert";
 import { ActionButton } from "../Cells/ActionButton";
 import { TableHeader } from "../Cells/TableHeader";
-
 import { styles } from "@/assets/globalStyles";
 import SubItemTextCell from "../Cells/SubItemTextCell";
 // https://www.npmjs.com/package/react-native-table-component
@@ -104,22 +103,23 @@ export default function SubItemsForExpenseTable(props: any) {
   };
 
   return (
-    // <View>
-    <ScrollView>
-      <Table borderStyle={styles.tableBorder}>
-        <TableHeader columnNames={data.tableHead} />
-        {data.tableData.map((rowData: any, index: number) => (
-          <TableWrapper key={index} style={styles.tableRow}>
-            {rowData.map((cellData: any, cellIndex: number) => (
-              <Cell
-                key={cellIndex}
-                data={CellContent(cellData, cellIndex, rowData, index)}
-                textStyle={styles.cellText}
-              />
-            ))}
-          </TableWrapper>
-        ))}
-      </Table>
+    <View>
+      <ScrollView>
+        <Table borderStyle={styles.tableBorder}>
+          <TableHeader columnNames={data.tableHead} />
+          {data.tableData.map((rowData: any, index: number) => (
+            <TableWrapper key={index} style={styles.tableRow}>
+              {rowData.map((cellData: any, cellIndex: number) => (
+                <Cell
+                  key={cellIndex}
+                  data={CellContent(cellData, cellIndex, rowData, index)}
+                  textStyle={styles.cellText}
+                />
+              ))}
+            </TableWrapper>
+          ))}
+        </Table>
+      </ScrollView>
       {isCreated !== null && (
         <DismissableAlert
           showAlert={isCreated !== null}
@@ -141,6 +141,6 @@ export default function SubItemsForExpenseTable(props: any) {
           onDismiss={() => setInvalidBody(false)}
         />
       )}
-    </ScrollView>
+    </View>
   );
 }

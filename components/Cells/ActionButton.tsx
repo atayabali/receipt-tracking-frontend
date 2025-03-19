@@ -12,6 +12,16 @@ export const ActionButton = (props: any) => {
   );
 };
 
+export const HeaderAction = (props: any) => {
+  return (
+    <TouchableOpacity onPress={() => props.handleClick()}>
+      <View style={styles.headerBtn}>
+        <Text style={styles.headerText}>{props.text}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
 const styles = StyleSheet.create({
   btn: {
     width: 70,
@@ -20,6 +30,21 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     alignSelf: "center",
     margin: 5,
+  },
+  headerBtn: {
+    margin: 25,
+    paddingTop: 3,
+    paddingBottom: 7,
+    paddingLeft: 7,
+    paddingRight: 7,
+    backgroundColor: "rgb(6, 68, 32)",
+    borderRadius: 2,
+    alignSelf: "center",
+  },
+  headerText: {
+    fontSize: 15,
+    textAlign: "center",
+    color: "#fff"
   },
   btnText: { textAlign: "center", color: "#fff" },
 });

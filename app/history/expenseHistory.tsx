@@ -2,17 +2,15 @@ import { styles } from "@/assets/globalStyles";
 import { View } from "@/components/Themed";
 import { deleteExpense, fetchExpenses } from "@/services/expenseService";
 import { useRouter } from "expo-router";
-import React, { useCallback, useEffect, useState } from "react";
-import { useFocusEffect } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import ExpenseHistoryTable from "@/components/Tables/ExpenseHistoryTable";
 import { Expense } from "@/models/Expense";
 import ConfirmCancelAlert from "@/components/Alerts/ConfirmCancelAlert";
-import GreenOutlineBtn from "@/components/GreenOutlineBtn";
 
 export default function ExpenseHistory() {
   const router = useRouter();
   const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [dateOrder, setDateOrder] = useState("desc");
+  // const [dateOrder, setDateOrder] = useState("desc");
   const [refresh, setRefresh] = useState(true);
   const [expenseToDelete, setExpenseToDelete] = useState<number | null>(null);
 
@@ -41,18 +39,6 @@ export default function ExpenseHistory() {
   //   }, [])
   // );
 
-  const sortExpenses = () => {
-    var isDesc = dateOrder === "desc";
-    setDateOrder(isDesc ? "asc" : "desc");
-    setExpenses(
-      expenses.sort((a, b) => {
-        return isDesc
-          ? new Date(a.date).getTime() - new Date(b.date).getTime()
-          : new Date(b.date).getTime() - new Date(a.date).getTime();
-      })
-    );
-  };
-
   const viewBreakdown = (item: Expense) => {
     if (item.hasSubItems) {
       router.push({
@@ -70,13 +56,10 @@ export default function ExpenseHistory() {
 
   return (
     <View style={styles.tableContainer}>
-      <GreenOutlineBtn
-        buttonText={`Sort: Date (${dateOrder})`}
-        handleClick={sortExpenses}
-      />
       {!refresh && (
         <ExpenseHistoryTable
           expenses={expenses}
+          setExpenses={setExpenses}
           viewBreakdown={viewBreakdown}
           updateExpenseToDelete={updateExpenseToDelete}
           onDelete={() => setRefresh(true)}

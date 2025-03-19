@@ -18,9 +18,9 @@ export default function SubItemsEntryTable(props: any) {
     setSubItems((prevItems: any) => prevItems.toSpliced(index, 1));
   };
 
-  const updateText = (itemIndex: any, property: any, val: any) => {
+  const updateText = (itemIndex: number, property: any, val: any) => {
     setSubItems((prevItems: any) => {
-      return prevItems.map((item, i) =>
+      return prevItems.map((item: any, i: number) =>
         i === itemIndex ? { ...item, [property]: val } : item
       );
     });

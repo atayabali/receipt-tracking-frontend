@@ -1,9 +1,9 @@
 import { View } from "@/components/Themed";
 import { Expense } from "@/models/Expense";
-import React from "react";
+import React, { useState } from "react";
 import { ScrollView } from "react-native";
 import { Cell, Table, TableWrapper } from "react-native-table-component";
-import { ActionButton } from "../Cells/ActionButton";
+import { ActionButton, HeaderAction } from "../Cells/ActionButton";
 import { styles } from "@/assets/globalStyles";
 import { TableHeader } from "../Cells/TableHeader";
 // https://www.npmjs.com/package/react-native-table-component
@@ -11,6 +11,8 @@ import { TableHeader } from "../Cells/TableHeader";
 
 //Had to use this git forked version in package.json to fix console error on textStyle prop for Cell: https://github.com/dohooo/react-native-table-component/issues/145
 export default function ExpenseHistoryTable(props: any) {
+  const [sortDesc, setSortOrder] = useState(true);
+  const [sortType, setSortType] = useState("Date");
   const showAlert = (id: number) => {
     props.updateExpenseToDelete(id);
   };
@@ -40,12 +42,62 @@ export default function ExpenseHistoryTable(props: any) {
       </View>
     );
   };
+  const sortDate = () => {
+    return props.expenses.sort((a: Expense, b: Expense) => {
+      return sortDesc
+        ? new Date(a.date).getTime() - new Date(b.date).getTime()
+        : new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+  };
+
+  const sortPrice = () => {
+    return props.expenses.sort((a: Expense, b: Expense) => {
+      return sortDesc
+        ? Number(a.totalCost) - Number(b.totalCost)
+        : Number(b.totalCost) - Number(a.totalCost);
+    });
+  };
+
+  const sortName = () => {
+    return props.expenses.sort((a: Expense, b: Expense) => {
+      const nameA = a.merchant.toUpperCase();  
+      const nameB = b.merchant.toUpperCase();
+      return sortDesc ? (nameA < nameB ? -1 : 1) : (nameA > nameB ? -1 : 1);
+    })
+  };
+
+  const sortByHeader = (header: string) => {
+    var prevType = sortType;
+    setSortType(header);
+
+    if (sortType === prevType) {
+      setSortOrder(!sortDesc);
+    } else {
+      setSortType(header);
+      setSortOrder(true);
+    }
+
+    if (sortType === "Store") {
+      props.setExpenses(sortName());
+    } else if(sortType === "Total Price"){
+      props.setExpenses(sortPrice());
+    } else {
+      props.setExpenses(sortDate());
+    }
+}
+  const Header = (header: string) => {
+    return header === "Actions" ? (
+      header
+    ) : (
+      <HeaderAction text={header} handleClick={() => sortByHeader(header)} />
+    );
+  };
 
   return (
     <ScrollView>
       <Table borderStyle={styles.tableBorder}>
         <TableHeader
-          columnNames={data.tableHead.map((header) => header)}
+          columnNames={data.tableHead.map((header) => Header(header))}
         />
 
         {data.tableData.map((rowData: any, index: number) => (

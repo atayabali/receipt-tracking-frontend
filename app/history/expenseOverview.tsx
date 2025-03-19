@@ -53,11 +53,13 @@ export default function ExpenseOverview() {
   return (
     <View style={styles.tableContainer}>
       <Title title={expenseSummary} />
-      {imageKey && <ExpenseImage imageKey={imageKey} /> }
+      {imageKey && <ExpenseImage imageKey={imageKey} />}
 
       <TotalsDisplay
         totalCost={parseFloat(totalCost)}
         subItems={subItems}
+        canAddTax={null}
+        addTax={null}
       />
       <SubItemsForExpenseTable
         subItems={subItems}
@@ -70,16 +72,14 @@ export default function ExpenseOverview() {
         expenseId={searchParams.get("expenseId")}
       />
 
-      {
-        <GreenOutlineBtn
-          buttonText="Add Sub Item"
-          disabled={createProcess}
-          handleClick={() => {
-            addSubItem();
-            setCreateProcess(true);
-          }}
-        />
-      }
+      <GreenOutlineBtn
+        buttonText="Add Sub Item"
+        disabled={createProcess}
+        handleClick={() => {
+          addSubItem();
+          setCreateProcess(true);
+        }}
+      />
     </View>
   );
 }
