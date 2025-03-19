@@ -13,6 +13,7 @@ import { SubExpense } from "@/models/SubItem";
 import { checkSubItems } from "@/services/subItemValidator";
 import TotalsDisplay from "./TotalsDisplay";
 import { ExpenseFormValues } from "@/models/Expense";
+import SubItemsEntryTable from "../Tables/SubItemsEntryTable";
 
 export default function FormikContainer(props: any) {
   const [isCreated, setIsCreated] = useState(false);
@@ -23,21 +24,6 @@ export default function FormikContainer(props: any) {
     { name: "", cost: 0, quantity: 1 },
   ]);
 
-  const addSubItem = () => {
-    setSubItems([...subItems, { name: "", cost: 0, quantity: 0 }]);
-  };
-
-  const updateItem = (index: number, key: string, newValue: any) => {
-    setSubItems((prevItems) =>
-      prevItems.map((item, i) =>
-        i === index ? { ...item, [key]: newValue } : item
-      )
-    );
-  };
-
-  const removeItem = (index: number) => {
-    setSubItems((prevItems) => prevItems.splice(index, 1));
-  };
   const ExpenseValidationSchema = Yup.object().shape({
     expenseName: Yup.string().required("Required"),
     totalCost: Yup.number().required().positive(),
@@ -54,6 +40,7 @@ export default function FormikContainer(props: any) {
   };
 
   const onSubmit = async (values: ExpenseFormValues, { resetForm }: any) => {
+    values.subExpenses = subItems;
     var status = checkSubItems(values.subExpenses, values.totalCost);
     setBreakdownStatus(status);
     if (values.costBreakdown && status !== "complete") {
@@ -67,7 +54,8 @@ export default function FormikContainer(props: any) {
       })
       .catch((ex) => {
         setIsFailure(true);
-      });
+      })
+      .finally(() => setSubItems([{ name: "", cost: 0, quantity: 1 }]));
   };
 
   return (
@@ -139,17 +127,13 @@ export default function FormikContainer(props: any) {
                     {breakdownStatus === "incomplete" && (
                       <TextError children="Sub Items table is incomplete. Please fill out before saving." />
                     )}
-                    <FormikControl
-                      subItems={subItems}
-                      onChange={(index: number, property: string, val: any) => {
-                        updateItem(index, property, val);
-                      }}
-                      onAdd={addSubItem}
-                      onRemove={removeItem}
-                      control="array"
-                      label="List of Sub Expenses: "
-                      name="subExpenses"
+
+                    <SubItemsEntryTable 
+                    columnNames={["Item Name", "Price", "Quantity", "Actions"]}
+                    subItems={subItems}
+                    setSubItems={setSubItems}
                     />
+
                   </>
                 )}
                 <GreenOutlineBtn

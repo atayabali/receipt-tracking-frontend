@@ -3,6 +3,7 @@ import { TableHeader } from "@/components/Cells/TableHeader";
 import TextError from "@/components/Forms/TextError";
 import TotalsDisplay from "@/components/Forms/TotalsDisplay";
 import GreenOutlineBtn from "@/components/GreenOutlineBtn";
+import SubItemsEntryTable from "@/components/Tables/SubItemsEntryTable";
 import { Text } from "@/components/Themed";
 import { ExpenseFormValues } from "@/models/Expense";
 import { SubExpense } from "@/models/SubItem";
@@ -32,12 +33,12 @@ export default function SaveExpenseData() {
       expenseDate: moment(expenseDate, "MM/DD/YYYY").toDate(),
       costBreakdown: expenseData.hasSubItems,
       subExpenses: subItems,
-      imageKey: params.get("imageKey")
+      imageKey: params.get("imageKey"),
     };
     var status = checkSubItems(subItems, expenseData.totalCost);
     setBreakdownStatus(status);
     if (status !== "complete") return;
-    
+
     await postExpense(expenseBody)
       .then((res) => {
         router.back();
@@ -49,73 +50,46 @@ export default function SaveExpenseData() {
   };
 
   const addTax = (difference: number) => {
-    setSubItems([...subItems, {name: "TAX", cost: difference, quantity: 1}])
-  }
-  
-  const textCell = (itemIndex: number, property: string, value: any) => {
-    return (
-      <TextInput
-        value={value.toString()}
-        onChangeText={(val: any) => {
-          setSubItems((prevItems: SubExpense[]) => {
-            return prevItems.map((item, i) =>
-              i === itemIndex ? { ...item, [property]: val } : item
-            );
-          });
-        }}
-        style={styles.cellText}
-      />
-    );
+    setSubItems([...subItems, { name: "TAX", cost: difference, quantity: 1 }]);
   };
-  return (
-    // <View >
-    <ScrollView style={{backgroundColor: "rgb(188, 189, 203)", padding: 10}}>
-            <Text>Expense/Store:</Text>
-            <TextInput
-              value={merchant}
-              onChangeText={(val) => setMerchant(val)}
-              style={styles.input}
-            />
-            <Text>Expense Date:</Text>
-            <TextInput
-              value={expenseDate}
-              onChangeText={(val) => setDate(val)}
-              style={styles.input}
-            />
-            <Text>Total Price:</Text>
-            <TextInput
-              value={totalCost.toString()}
-              onChangeText={(val) => setTotal(val)}
-              style={styles.input}
-            />
 
-      <TotalsDisplay totalCost={totalCost} subItems={subItems} canAddTax={true} addTax={addTax}/> 
-      
+  return (
+    <ScrollView style={{ backgroundColor: "rgb(188, 189, 203)", padding: 10 }}>
+      <Text>Expense/Store:</Text>
+      <TextInput
+        value={merchant}
+        onChangeText={(val) => setMerchant(val)}
+        style={styles.input}
+      />
+      <Text>Expense Date:</Text>
+      <TextInput
+        value={expenseDate}
+        onChangeText={(val) => setDate(val)}
+        style={styles.input}
+      />
+      <Text>Total Price:</Text>
+      <TextInput
+        value={totalCost.toString()}
+        onChangeText={(val) => setTotal(val)}
+        style={styles.input}
+      />
+
+      <TotalsDisplay
+        totalCost={totalCost}
+        subItems={subItems}
+        canAddTax={true}
+        addTax={addTax}
+      />
+
       {breakdownStatus === "incomplete" && (
         <TextError children="Sub Items table is incomplete. Please fill out before saving." />
       )}
-
-      <Table borderStyle={{ borderWidth: 4, borderColor: "rgb(6, 68, 32)" }}>
-        <TableHeader columnNames={["Item Name", "Price", "Quantity"]} />
-
-        {subItems?.map((subItem: any, index: number) => (
-          <TableWrapper key={index} style={styles.tableRow}>
-            {Object.entries(subItem).map(([key, value]) => {
-              return (
-                <Cell
-                  key={`${index}.${key}`}
-                  data={textCell(index, key, value)}
-                  textStyle={styles.cellText}
-                />
-              );
-            })}
-          </TableWrapper>
-        ))}
-      </Table>
       <Text> Edit any incorrect information and click Save when finished</Text>
-      <GreenOutlineBtn
-        handleClick={async () => setSubItems([...subItems, {name: "", cost: 0.00, quantity: 1}])      }
-        buttonText="Add SubItem"
+
+      <SubItemsEntryTable
+        columnNames={["Item Name", "Price", "Quantity", "Actions"]}
+        subItems={subItems}
+        setSubItems={setSubItems}
       />
 
       <GreenOutlineBtn
@@ -123,6 +97,5 @@ export default function SaveExpenseData() {
         buttonText="Save Expense"
       />
     </ScrollView>
-    // </View>
   );
 }

@@ -10,6 +10,7 @@ import { TableHeader } from "@/components/Cells/TableHeader";
 import _ from "lodash";
 import { ScrollView } from "react-native";
 import { Cell, Table, TableWrapper } from "react-native-table-component";
+import SubExpenseHistoryTable from "@/components/Tables/SubExpenseHistoryTable";
 
 export default function SubExpenseHistory() {
   const router = useRouter();
@@ -57,28 +58,7 @@ export default function SubExpenseHistory() {
         Retrieving{" "}
         {search.length > 0 ? `items that contain '${search}'` : "all items"}
       </Text>
-      <ScrollView>
-        <Table borderStyle={styles.tableBorder}>
-          <TableHeader columnNames={["Grocery Item", "Cost", "Date"]} />
-          {subexpenses
-            .map((subItem: SubExpenseHistoryItem) => [
-              subItem.name,
-              subItem.cost,
-              subItem.date,
-            ])
-            .map((rowData: any, index: number) => (
-              <TableWrapper key={index} style={styles.tableRow}>
-                {rowData.map((cellData: any, cellIndex: number) => (
-                  <Cell
-                    key={cellIndex}
-                    data={cellData}
-                    textStyle={styles.cellText}
-                  />
-                ))}
-              </TableWrapper>
-            ))}
-        </Table>
-      </ScrollView>
+      <SubExpenseHistoryTable subexpenses={subexpenses}/>
     </View>
   );
 }

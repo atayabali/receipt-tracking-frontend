@@ -14,7 +14,7 @@ export const ActionButton = (props: any) => {
 
 const styles = StyleSheet.create({
   btn: {
-    width: 60,
+    width: 70,
     height: 20,
     backgroundColor: "rgb(6, 68, 32)",
     borderRadius: 2,

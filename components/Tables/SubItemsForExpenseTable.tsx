@@ -3,17 +3,17 @@ import { deleteSubItemById, postSubItem } from "@/services/subexpenseService";
 import React, { useState } from "react";
 import { ScrollView } from "react-native";
 import { Cell, Table, TableWrapper } from "react-native-table-component";
-import DismissableAlert from "./Alerts/DismissableAlert";
-import { ActionButton } from "./Cells/ActionButton";
-import { TableHeader } from "./Cells/TableHeader";
+import DismissableAlert from "../Alerts/DismissableAlert";
+import { ActionButton } from "../Cells/ActionButton";
+import { TableHeader } from "../Cells/TableHeader";
 
 import { styles } from "@/assets/globalStyles";
-import SubItemTextCell from "./Cells/SubItemTextCell";
+import SubItemTextCell from "../Cells/SubItemTextCell";
 // https://www.npmjs.com/package/react-native-table-component
 //you can add a button, make it clickable so that's good
 
 //Had to use this git forked version in package.json to fix console error on textStyle prop for Cell: https://github.com/dohooo/react-native-table-component/issues/145
-export default function SubItemTableV2(props: any) {
+export default function SubItemsForExpenseTable(props: any) {
   const data = {
     tableHead: ["Item Name", "Price", "Quantity", "Actions"],
     tableData: props.subItems.map((subItem: SubItem) => [

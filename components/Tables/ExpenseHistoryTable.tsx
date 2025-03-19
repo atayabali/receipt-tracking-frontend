@@ -3,14 +3,14 @@ import { Expense } from "@/models/Expense";
 import React from "react";
 import { ScrollView } from "react-native";
 import { Cell, Table, TableWrapper } from "react-native-table-component";
-import { ActionButton } from "./Cells/ActionButton";
+import { ActionButton } from "../Cells/ActionButton";
 import { styles } from "@/assets/globalStyles";
-import { TableHeader } from "./Cells/TableHeader";
+import { TableHeader } from "../Cells/TableHeader";
 // https://www.npmjs.com/package/react-native-table-component
 //you can add a button, make it clickable so that's good
 
 //Had to use this git forked version in package.json to fix console error on textStyle prop for Cell: https://github.com/dohooo/react-native-table-component/issues/145
-export default function ExpenseTable(props: any) {
+export default function ExpenseHistoryTable(props: any) {
   const showAlert = (id: number) => {
     props.updateExpenseToDelete(id);
   };
@@ -32,7 +32,7 @@ export default function ExpenseTable(props: any) {
       <View style={styles.actionsColumn}>
         {expense.hasSubItems ? (
           <ActionButton
-            text="View"
+            text="View/Edit"
             handleClick={() => props.viewBreakdown(expense)}
           />
         ) : null}

@@ -4,7 +4,7 @@ import { deleteExpense, fetchExpenses } from "@/services/expenseService";
 import { useRouter } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import ExpenseTableV2 from "@/components/ExpenseTable";
+import ExpenseHistoryTable from "@/components/Tables/ExpenseHistoryTable";
 import { Expense } from "@/models/Expense";
 import ConfirmCancelAlert from "@/components/Alerts/ConfirmCancelAlert";
 import GreenOutlineBtn from "@/components/GreenOutlineBtn";
@@ -75,7 +75,7 @@ export default function ExpenseHistory() {
         handleClick={sortExpenses}
       />
       {!refresh && (
-        <ExpenseTableV2
+        <ExpenseHistoryTable
           expenses={expenses}
           viewBreakdown={viewBreakdown}
           updateExpenseToDelete={updateExpenseToDelete}

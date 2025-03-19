@@ -1,7 +1,7 @@
 import { styles } from "@/assets/globalStyles";
 import TotalsDisplay from "@/components/Forms/TotalsDisplay";
 import GreenOutlineBtn from "@/components/GreenOutlineBtn";
-import SubItemTableV2 from "@/components/SubItemTableV2";
+import SubItemsForExpenseTable from "@/components/Tables/SubItemsForExpenseTable";
 import Title from "@/components/Title";
 import { SubItem } from "@/models/SubItem";
 import { fetchSubItemsByExpenseId } from "@/services/subexpenseService";
@@ -59,7 +59,7 @@ export default function ExpenseOverview() {
         totalCost={parseFloat(totalCost)}
         subItems={subItems}
       />
-      <SubItemTableV2
+      <SubItemsForExpenseTable
         subItems={subItems}
         updateItem={updateItem}
         onDelete={() => setRefresh(true)}
