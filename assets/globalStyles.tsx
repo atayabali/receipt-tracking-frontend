@@ -82,12 +82,13 @@ export const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    width: 300,
+    width: 350,
     maxWidth: '100%',
     borderColor: '#ddd',
     padding: 5,
     fontSize: 12,
-    borderRadius: 6
+    borderRadius: 6,
+    marginBottom: 5
   },
   checkbox: {
     backgroundColor: "rgb(188, 189, 203)",

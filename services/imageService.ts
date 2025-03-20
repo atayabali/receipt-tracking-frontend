@@ -11,7 +11,7 @@ const convertUriToBlob = async (uri: string, mimeType: string) => {
 };
 
 export const getS3Url = async (filename: string, mimetype: string) => {
-  var response = await axios.post(`${urlPrefix}/images/s3Url`, {
+  var response = await axios.post(`${urlPrefix}/api/v1/images/s3Url`, {
     fileName: filename,
     mimeType: mimetype,
   });
@@ -58,7 +58,7 @@ export const uploadImageWithPresignedUrl = async (
 
 export const analyzeExpense = async (objectName: string) => {
   var response = await axios.get(
-    `${urlPrefix}/images/analyzeExpense/${objectName}`
+    `${urlPrefix}/api/v1/images/analyzeExpense/${objectName}`
   );
   return response.data;
 };
@@ -66,7 +66,7 @@ export const analyzeExpense = async (objectName: string) => {
 
 export const getImageByKey = async (objectName: string) => {
   var response = await axios.get(
-    `${urlPrefix}/images/s3Object/${objectName}`
+    `${urlPrefix}/api/v1/images/s3Object/${objectName}`
   );
   return response.data.imageUri;
 };
