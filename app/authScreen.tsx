@@ -1,46 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useRouter } from 'expo-router';
 import { styles } from '@/assets/globalStyles';
 import GreenOutlineBtn from '@/components/GreenOutlineBtn';
 import Title from '@/components/Title';
 import { Guid } from 'typescript-guid';
 import axios from 'axios';
 import { urlPrefix } from '@/services/configureUrl';
-const signup = async (email: string, password: string) => {
-  const bucketName = Guid.create().toString(); // Generate a unique identifier
+import { storeRefreshToken, storeToken } from '@/services/authService';
+import { useAuth } from '@/services/authContext';
 
-  try {
-    const response = await axios.post(`${urlPrefix}/api/v1/signup`, {
-      email,
-      password, // Send raw password (hashed in backend)
-      bucketName
-    });
-
-    console.log('Signup successful:', response.data);
-  } catch (error: any) {
-    console.error('Signup error:', error.response?.data || error.message);
-  }
-};
-
-const login = async (email: string, password: string) => {
-  try {
-    const response = await axios.post(`${urlPrefix}/api/v1/login`, {
-      email,
-      password // Send raw password (backend hashes & verifies)
-    });
-
-    const { userBucket } = response.data;
-    // await AsyncStorage.setItem('authToken', token);
-
-    console.log('Login successful:', response.data);
-
-  } catch (error) {
-    console.error('Login error:', error.response?.data || error.message);
-  }
-};
 
 const validationSchema = Yup.object({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -54,9 +24,10 @@ const validationSchema = Yup.object({
 });
 
 export default function AuthScreen(props:any) {
-  const router = useRouter();
   const [isSignUp, setIsSignUp] = React.useState(false);
+  const {signup, login} = useAuth();
 
+ 
   return (
     <View style={styles.container}>
       <Title title={isSignUp ? 'Sign Up' : 'Login'}></Title>
