@@ -2,6 +2,7 @@ import axios from "axios";
 import { urlPrefix } from "./configureUrl";
 import * as FileSystem from "expo-file-system";
 import { Platform } from "react-native";
+import api from "./api";
 
 // Convert imageUri to Blob
 const convertUriToBlob = async (uri: string, mimeType: string) => {
@@ -11,7 +12,7 @@ const convertUriToBlob = async (uri: string, mimeType: string) => {
 };
 
 export const getS3Url = async (filename: string, mimetype: string) => {
-  var response = await axios.post(`${urlPrefix}/api/v1/images/s3Url`, {
+  var response = await api.post(`/images/s3Url`, {
     fileName: filename,
     mimeType: mimetype,
   });
@@ -57,16 +58,16 @@ export const uploadImageWithPresignedUrl = async (
 };
 
 export const analyzeExpense = async (objectName: string) => {
-  var response = await axios.get(
-    `${urlPrefix}/api/v1/images/analyzeExpense/${objectName}`
+  var response = await api.get(
+    `/images/analyzeExpense/${objectName}`
   );
   return response.data;
 };
 
 
 export const getImageByKey = async (objectName: string) => {
-  var response = await axios.get(
-    `${urlPrefix}/api/v1/images/s3Object/${objectName}`
+  var response = await api.get(
+    `/images/s3Object/${objectName}`
   );
   return response.data.imageUri;
 };

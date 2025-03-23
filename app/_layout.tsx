@@ -21,23 +21,20 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   return <AuthProvider>
     <AuthGate/>
   </AuthProvider>;
 }
 
 function AuthGate() {
-  const { user } = useAuth();
-  console.log(user);
+  const { accessToken } = useAuth();
+  console.log(accessToken);
   // if (user) return <LoadingScreen />; // Optional loading state
 
-  return user ? <RootLayoutNav /> : <AuthScreen />;
+  return accessToken ? <RootLayoutNav /> : <AuthScreen />;
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-
   return (
     <ThemeProvider value={GreenTheme}>
       <Stack>

@@ -1,12 +1,8 @@
 import { Expense, ExpenseFormValues, ExpenseRequestBody } from "@/models/Expense";
-import axios from "axios";
-import { urlPrefix } from "./configureUrl";
+import api from "./api";
 
-// http://:5000/api/v1/expenses/all
 export const fetchExpenses = async (): Promise<Expense[]> => {
-  const response = await axios.get<Expense[]>(
-    `${urlPrefix}/api/v1/expenses/all`
-  );
+  const response = await api.get<Expense[]>('/expenses/all');
   return response.data;
 };
 
@@ -21,19 +17,15 @@ export const postExpense = async (
     subExpenses: expenseInfo.costBreakdown ? expenseInfo.subExpenses : [],
     imageKey: expenseInfo.imageKey
   };
-  const response = await axios.post(`${urlPrefix}/api/v1/expenses`, body);
+  const response = await api.post('/expenses', body);
   return response.data;
 };
 
 export const deleteExpense = async (expenseId: string) => {
   try {
-    const response = await axios.delete(
-      `${urlPrefix}/api/v1/expenses/${expenseId}`
-    );
+    const response = await api.delete(`/expenses/${expenseId}`);
     return response.status;
   } catch (e: any) {
     return 500;
   }
 };
-
-
