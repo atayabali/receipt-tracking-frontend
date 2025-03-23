@@ -35,7 +35,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           axios
             .post(`${urlPrefix}/auth/refresh-token`, {}, { withCredentials: true })
             .then((response) => {
-              console.log(response);
+              // console.log(response);
               setToken(response.data.accessToken); // Store new access token in state
             })
             .catch((error) => {
@@ -60,9 +60,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         email,
         password, // Send raw password (hashed in backend)
         bucketName,
-      });
+      }, { withCredentials: true });
 
-      console.log("Signup successful:", response.data);
+      // console.log("Signup successful:", response.data);
       setUser(response.data.user);
       await storeToken(response.data.accessToken);
       setToken(response.data.accessToken);
@@ -77,11 +77,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const response = await axios.post(`${urlPrefix}/auth/login`, {
         email,
         password,
-      });
+      }, { withCredentials: true });
 
       const { user, accessToken } = response.data;
 
-      console.log("Login successful:", user);
+      // console.log("Login successful:", user);
       setUser(user);
       await storeToken(accessToken);
       setToken(accessToken);

@@ -28,7 +28,7 @@ export default function RootLayout() {
 
 function AuthGate() {
   const { accessToken } = useAuth();
-  console.log(accessToken);
+  // console.log(accessToken);
   // if (user) return <LoadingScreen />; // Optional loading state
 
   return accessToken ? <RootLayoutNav /> : <AuthScreen />;
