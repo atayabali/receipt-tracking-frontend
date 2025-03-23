@@ -6,6 +6,7 @@ import { useColorScheme } from "@/components/useColorScheme";
 import { GreenTheme } from "@/assets/GreenTheme";
 import AuthScreen from "./authScreen";
 import { AuthProvider, useAuth } from "@/services/authContext";
+import LoadingScreen from "./loadScreen";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -27,7 +28,8 @@ export default function RootLayout() {
 }
 
 function AuthGate() {
-  const { accessToken } = useAuth();
+  const { accessToken, isLoading } = useAuth();
+  if(isLoading) return <LoadingScreen />
   // console.log(accessToken);
   // if (user) return <LoadingScreen />; // Optional loading state
 

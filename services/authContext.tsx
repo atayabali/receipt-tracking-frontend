@@ -13,6 +13,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+  isLoading: boolean;
   accessToken: string | null;
   login: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string) => Promise<void>;
@@ -26,8 +27,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     const fetchToken = async () => {
+      setLoading(true);
       try {
         if (Platform.OS === "web") {
           // Check if we already have an access token stored
@@ -48,18 +51,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       } catch (ex) {
         setToken(null);
+      } finally {
+        setLoading(false);
       }
     };
     fetchToken();
   }, []);
 
   const signup = async (email: string, password: string) => {
-    const bucketName = Guid.create().toString(); // Generate a unique identifier
+    const bucketIdentifier = Guid.create().toString(); // Generate a unique identifier
     try {
       const response = await axios.post(`${urlPrefix}/signup`, {
         email,
         password, // Send raw password (hashed in backend)
-        bucketName,
+        bucketIdentifier,
       }, { withCredentials: true });
 
       // console.log("Signup successful:", response.data);
@@ -99,7 +104,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <AuthContext.Provider
-      value={{ user, accessToken: token, login, signup, logout }}
+      value={{ user, accessToken: token, isLoading, login, signup, logout }}
     >
       {children}
     </AuthContext.Provider>
