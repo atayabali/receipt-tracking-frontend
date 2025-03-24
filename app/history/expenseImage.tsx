@@ -7,7 +7,6 @@ export const ExpenseImage = (props: { imageKey: string }) => {
   const [imageUri, setImageUri] = useState<string>("");
   const [showImg, setShowImg] = useState(false);
 
-
   //This should really be handled better in terms of need to add "errors" state and red text
   const getAndDisplayImage = async () => {
     if (imageUri === "") {

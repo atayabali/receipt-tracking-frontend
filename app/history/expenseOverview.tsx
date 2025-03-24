@@ -9,7 +9,7 @@ import { useSearchParams } from "expo-router/build/hooks";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { ExpenseImage } from "./expenseImage";
-
+import { ScrollView } from "react-native";
 export default function ExpenseOverview() {
   const [subItems, setSubItems] = useState<SubItem[]>([]);
   const searchParams = useSearchParams();
@@ -51,7 +51,9 @@ export default function ExpenseOverview() {
   var expenseSummary = `$${totalCost} at ${merchant} on ${expenseDate}`;
 
   return (
+    
     <View style={styles.tableContainer}>
+      <ScrollView>
       <Title title={expenseSummary} />
       {imageKey && <ExpenseImage imageKey={imageKey} />}
 
@@ -80,6 +82,7 @@ export default function ExpenseOverview() {
           setCreateProcess(true);
         }}
       />
+      </ScrollView>
     </View>
   );
 }
