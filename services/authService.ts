@@ -1,6 +1,19 @@
 import * as SecureStore from "expo-secure-store";
 import { urlPrefix } from "./configureUrl";
+import { Platform } from 'react-native';
+import { useAuth } from "./authContext";
+
 const API_URL = urlPrefix;
+export const getAccessToken = async (): Promise<string | null> => {
+  if (Platform.OS === 'web') {
+    // On web, use React Context (must be called inside a component)
+    const { accessToken } = useAuth();
+    return accessToken ?? null;
+  } else {
+    // On mobile, retrieve token from SecureStore
+    return await getStoredToken();
+  }
+};
 
 export const getStoredToken = async (): Promise<string | null> => {
   try {

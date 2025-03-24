@@ -5,17 +5,17 @@ import axios from "axios";
 import { urlPrefix } from "./configureUrl";
 import { Platform } from "react-native";
 
-interface User {
-  userId: number;
-  email: string;
-  bucketName: string;
-}
+// interface User {
+//   userId: number;
+//   email: string;
+//   bucketName: string;
+// }
 
 interface AuthContextType {
-  user: User | null;
+  // user: User | null;
   isLoading: boolean;
   accessToken: string | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: any; //(email: string, password: string) => Promise<void>;
   signup: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
@@ -25,7 +25,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setLoading] = useState<boolean>(true);
   useEffect(() => {
@@ -61,14 +60,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const signup = async (email: string, password: string) => {
     const bucketIdentifier = Guid.create().toString(); // Generate a unique identifier
     try {
-      const response = await axios.post(`${urlPrefix}/signup`, {
+      const response = await axios.post(`${urlPrefix}/auth/signup`, {
         email,
         password, // Send raw password (hashed in backend)
         bucketIdentifier,
       }, { withCredentials: true });
 
-      // console.log("Signup successful:", response.data);
-      setUser(response.data.user);
       await storeToken(response.data.accessToken);
       setToken(response.data.accessToken);
     } catch (error: any) {
@@ -84,27 +81,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         password,
       }, { withCredentials: true });
 
-      const { user, accessToken } = response.data;
-
-      // console.log("Login successful:", user);
-      setUser(user);
+      const { accessToken } = response.data;
       await storeToken(accessToken);
       setToken(accessToken);
     } catch (error: any) {
-      console.error("Login error:", error.response?.data || error.message);
-      throw error;
+      return {
+        status: "error",
+        message: typeof error.response?.data?.message === "string" 
+        ? error.response.data.message 
+        :  error.message || "An unknown error occurred"
+      }
     }
   };
 
   const logout = () => {
-    setUser(null);
     setToken(null);
     clearTokens();
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, accessToken: token, isLoading, login, signup, logout }}
+      value={{ accessToken: token, isLoading, login, signup, logout }}
     >
       {children}
     </AuthContext.Provider>

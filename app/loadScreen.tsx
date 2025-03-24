@@ -11,8 +11,8 @@ interface LoadingScreenProps {
 // A functional Loading component with props and TypeScript support
 const LoadingScreen: React.FC<LoadingScreenProps> = ({
   message = 'Loading...',
-  backgroundColor = '#f0f0f0',  // Default light background color
-  textColor = '#6200ee',  // Default text color
+  backgroundColor =  "rgb(188, 189, 203)", //'#f0f0f0',  // Default light background color
+  textColor = "rgb(6, 68, 32)",  // Default text color
   size = 'large', // Default size of the spinner
 }) => {
   return (

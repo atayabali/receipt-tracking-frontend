@@ -6,6 +6,8 @@ import React, { useEffect, useState } from "react";
 import ExpenseHistoryTable from "@/components/Tables/ExpenseHistoryTable";
 import { Expense } from "@/models/Expense";
 import ConfirmCancelAlert from "@/components/Alerts/ConfirmCancelAlert";
+import { useAuth } from "@/services/authContext";
+import { setAccessToken } from "@/services/api";
 
 export default function ExpenseHistory() {
   const router = useRouter();
@@ -13,7 +15,10 @@ export default function ExpenseHistory() {
   // const [dateOrder, setDateOrder] = useState("desc");
   const [refresh, setRefresh] = useState(true);
   const [expenseToDelete, setExpenseToDelete] = useState<number | null>(null);
+  const { accessToken } = useAuth(); // Get token from context
 
+  // Set the token provider dynamically
+  setAccessToken(accessToken);
   const updateExpenseToDelete = (newValue: number | null) => {
     setExpenseToDelete(newValue);
   };

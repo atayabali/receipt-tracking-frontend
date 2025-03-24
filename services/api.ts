@@ -1,9 +1,17 @@
 import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { urlPrefix } from './configureUrl';
-import { clearTokens, getStoredToken, storeToken } from './authService';
+import { clearTokens, getAccessToken, getStoredToken, storeToken } from './authService';
 
 // Define the API base URL
 const BASE_URL = urlPrefix;
+
+// Store the access token directly
+let accessToken: string | null = null;
+
+// Function to update the stored token
+export const setAccessToken = (token: string | null) => {
+  accessToken = token;
+};
 
 // Create an Axios instance
 const api: AxiosInstance = axios.create({
@@ -16,11 +24,13 @@ const api: AxiosInstance = axios.create({
 
 // Request Interceptor: Attach Access Token to Requests
 api.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
-    const accessToken = getStoredToken();
-    if (accessToken) {
-      config.headers['Authorization'] = `Bearer ${accessToken}`;
-    }
+  async (config: InternalAxiosRequestConfig) => {
+
+      if (accessToken) {
+        config.headers['Authorization'] = `Bearer ${accessToken}`;
+      }
+    
+
     return config;
   },
   (error: AxiosError) => {

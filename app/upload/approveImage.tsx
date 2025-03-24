@@ -14,6 +14,8 @@ import { Guid } from "typescript-guid";
 import { ScrollView } from "react-native";
 import ProgressCircle from "./progressCircle";
 import UploadFailure from "./uploadFailure";
+import { useAuth } from "@/services/authContext";
+import { setAccessToken } from "@/services/api";
 export default function ApproveImage() {
   const [uploadStatus, onStatusUpdate] = useState("none"); //pending, complete, none
   const router = useRouter();
@@ -21,6 +23,10 @@ export default function ApproveImage() {
   var imageUri = searchParams.get("imageUri") ?? "";
   var mimeType = searchParams.get("mimeType") ?? "";
 
+  const { accessToken } = useAuth(); // Get token from context
+
+  // Set the token provider dynamically
+  setAccessToken(accessToken);
   const uploadImage = async (randomlyGeneratedFileName: string) => {
     try {
       var url = await getS3Url(randomlyGeneratedFileName, mimeType);
@@ -54,7 +60,8 @@ export default function ApproveImage() {
       pathname: "/upload/saveData",
       params: {
         expenseData: JSON.stringify(imageData),
-        imageKey: randomlyGeneratedFileName
+        imageKey: randomlyGeneratedFileName,
+        imageUri: imageUri
       },
     });
   };
@@ -77,11 +84,13 @@ export default function ApproveImage() {
         </View>
       )}
 
-      {(uploadStatus === "pending" || uploadStatus === "success")
-       && <ProgressCircle message="Extracting text from image"/>
-      }
+      {(uploadStatus === "pending" || uploadStatus === "success") && (
+        <ProgressCircle message="Extracting text from image" />
+      )}
 
-      { uploadStatus === "failure" && <UploadFailure message="Failed to process image"/> }
+      {uploadStatus === "failure" && (
+        <UploadFailure message="Failed to process image" />
+      )}
     </ScrollView>
   );
 }

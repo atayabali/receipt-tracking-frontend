@@ -1,19 +1,18 @@
 import { styles } from "@/assets/globalStyles";
-import { TableHeader } from "@/components/Cells/TableHeader";
 import TextError from "@/components/Forms/TextError";
 import TotalsDisplay from "@/components/Forms/TotalsDisplay";
 import GreenOutlineBtn from "@/components/GreenOutlineBtn";
 import SubItemsEntryTable from "@/components/Tables/SubItemsEntryTable";
 import { Text } from "@/components/Themed";
 import { ExpenseFormValues } from "@/models/Expense";
-import { SubExpense } from "@/models/SubItem";
+import { setAccessToken } from "@/services/api";
+import { useAuth } from "@/services/authContext";
 import { postExpense } from "@/services/expenseService";
 import { checkSubItems } from "@/services/subItemValidator";
 import { useRouter, useSearchParams } from "expo-router/build/hooks";
 import moment from "moment";
 import React, { useState } from "react";
-import { ScrollView, TextInput } from "react-native";
-import { Cell, Table, TableWrapper } from "react-native-table-component";
+import { Image, ScrollView, TextInput } from "react-native";
 
 export default function SaveExpenseData() {
   const params = useSearchParams();
@@ -25,6 +24,11 @@ export default function SaveExpenseData() {
   const [totalCost, setTotal] = useState(expenseData.totalCost.toString());
   //"incomplete", "unequal", or "complete"
   const [breakdownStatus, setBreakdownStatus] = useState("complete");
+  var imageUri = params.get("imageUri") ?? "";
+  const { accessToken } = useAuth(); // Get token from context
+
+  // Set the token provider dynamically
+  setAccessToken(accessToken);
 
   const saveExpenseData = async () => {
     const expenseBody: ExpenseFormValues = {
@@ -96,6 +100,7 @@ export default function SaveExpenseData() {
         handleClick={async () => await saveExpenseData()}
         buttonText="Save Expense"
       />
+      {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
     </ScrollView>
   );
 }
